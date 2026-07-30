@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aderência de Carteira · Pleno Gestão</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var cdns=[
+    'https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js',
+    'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
+    'https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js'
+  ],i=0;
+  function next(){if(i>=cdns.length){window._xlsxFailed=true;return;}
+    var s=document.createElement('script');s.src=cdns[i++];s.onerror=next;document.head.appendChild(s);}
+  next();
+})();
+(function(){
+  var cdns=[
+    'https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js',
+    'https://unpkg.com/chart.js@4.4.4/dist/chart.umd.min.js'
+  ],i=0;
+  function next(){if(i>=cdns.length){window._chartFailed=true;return;}
+    var s=document.createElement('script');s.src=cdns[i++];s.onerror=next;document.head.appendChild(s);}
+  next();
+})();
+(function(){
+  var cdns=[
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+    'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js',
+    'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js'
+  ],i=0;
+  function next(){if(i>=cdns.length){window._pdfjsFailed=true;return;}
+    var s=document.createElement('script');s.src=cdns[i++];
+    s.onload=function(){ try{ if(window.pdfjsLib){ pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; } }catch(e){} };
+    s.onerror=next;document.head.appendChild(s);}
+  next();
+})();
+(function(){
+  var cdns=[
+    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+    'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js',
+    'https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js'
+  ],i=0;
+  function next(){if(i>=cdns.length){window._html2canvasFailed=true;return;}
+    var s=document.createElement('script');s.src=cdns[i++];s.onerror=next;document.head.appendChild(s);}
+  next();
+})();
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+::selection{background:rgba(201,163,105,.28);color:#fff;}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+
+/* ==== TOPBAR PADRÃO HUB ==== */
+.hub-topbar {
+    --bg-topbar: #141720; --border-topbar: #2a2e3f; --text-topbar: #e1e3ef;
+    --text2-topbar: #9a9eb8; --text3-topbar: #5c6080; --gold-topbar: #f5c842; --amber-topbar: #e0ac2c;
+    font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg-topbar); border-bottom: 1px solid var(--border-topbar); height: 52px;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; gap: 12px;
+    position: sticky; top: 0; z-index: 200;
+}
+body.light .hub-topbar {
+    --bg-topbar: #ffff; --border-topbar: #d4d8e2; --text-topbar: #1a1d2e;
+    --text2-topbar: #4a4f6a; --text3-topbar: #8a90a8; --gold-topbar: #b8860b; --amber-topbar: #c47d00;
+}
+.hub-topbar-left, .hub-topbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.hub-topbar-center { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; pointer-events: none; }
+.hub-pbf-badge { background: var(--gold-topbar); padding: 0 12px; height: 30px; border-radius: 40px; display: flex; align-items: center; font-size: 12px; font-weight: 800; color: #000; letter-spacing: 0.5px; }
+.hub-topbar-title { font-size: 14px; font-weight: 600; color: var(--text-topbar); white-space: nowrap; }
+.hub-back-btn, .hub-newtab-btn { display: inline-flex; align-items: center; gap: 5px; background: transparent; border: 1px solid var(--border-topbar); border-radius: 8px; color: var(--text2-topbar); font-family: inherit; font-size: 12px; font-weight: 500; padding: 5px 10px; cursor: pointer; transition: border-color .15s, color .15s, background .15s; white-space: nowrap; }
+.hub-back-btn:hover, .hub-newtab-btn:hover { border-color: var(--amber-topbar); color: var(--gold-topbar); background: var(--bg-topbar); }
+.hub-back-btn .material-symbols-outlined, .hub-newtab-btn .material-symbols-outlined { font-size: 16px; }
+.hub-active-tool { font-size: 15px; font-weight: 700; color: var(--gold-topbar); white-space: nowrap; background: transparent; }
+.hub-clock { font-size: 11px; color: var(--text3-topbar); font-variant-numeric: tabular-nums; background: var(--bg-topbar); padding: 4px 10px; border-radius: 30px; border: 1px solid var(--border-topbar); }
+.hub-theme-btn { background: var(--bg-topbar); border: 1px solid var(--border-topbar); border-radius: 30px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: border-color 0.2s; flex-shrink: 0; }
+.hub-theme-btn:hover { border-color: var(--gold-topbar); }
+.material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; font-size: 20px; line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap; word-wrap: normal; direction: ltr; font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+@media (max-width: 600px) {
+    .hub-back-btn span:not(.material-symbols-outlined), .hub-newtab-btn span:not(.material-symbols-outlined) { display: none; }
+    .hub-back-btn, .hub-newtab-btn { padding: 5px 8px; }
+    .hub-active-tool { font-size: 13px; max-width: 140px; overflow: hidden; text-overflow: ellipsis; }
+    .hub-clock { font-size: 10px; padding: 4px 6px; }
+}
+@media (max-width: 480px) {
+    .hub-topbar-title { display: none; }
+    .hub-topbar-center { position: static; transform: none; margin: 0 auto; }
+}
+/* ==== FIM TOPBAR ==== */
+
+/* ==== DESIGN TOKENS (mesmos do projeto Rentabilidade) ==== */
+:root{
+  --bg:#08090f; --bg-card:#0e1120; --bg-card2:#141828; --bg-card3:#1b2036;
+  --bd:#232842; --bd2:#323a5c; --tx:#f2f3fa; --tx2:#a2a8c4; --tx3:#6b7295;
+  --gold:#cba869; --gold2:#e7c98a; --gold-soft:rgba(203,168,105,.12); --gold-soft2:rgba(203,168,105,.24);
+  --pos:#38cf92; --pos-soft:rgba(56,207,146,.12); --neg:#f2594c; --neg-soft:rgba(242,89,76,.13);
+  --info:#63a8ec; --info-soft:rgba(99,168,236,.12);
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-7:32px; --sp-8:40px; --sp-9:48px;
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px;
+  --fs-2xs:.6875rem; --fs-xs:.75rem; --fs-sm:.8125rem; --fs-base:.875rem; --fs-md:.9375rem; --fs-lg:1.0625rem; --fs-xl:1.375rem; --fs-2xl:1.875rem;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.3); --shadow-sm:0 2px 8px -2px rgba(0,0,0,.35); --shadow-md:0 12px 28px -10px rgba(0,0,0,.5); --shadow-lg:0 28px 64px -18px rgba(0,0,0,.6); --shadow-gold:0 10px 24px -8px rgba(203,168,105,.38);
+}
+body.light{
+  --bg:#eef1f8; --bg-card:#ffff; --bg-card2:#f6f8fc; --bg-card3:#eceff8;
+  --bd:#dbe0ef; --bd2:#c3cbe2; --tx:#11142a; --tx2:#4d5476; --tx3:#7e86a8;
+  --gold:#8f6a1c; --gold2:#a9822c; --gold-soft:rgba(143,106,28,.09); --gold-soft2:rgba(143,106,28,.17);
+  --pos:#17945f; --pos-soft:rgba(23,148,95,.1); --neg:#c8362a; --neg-soft:rgba(200,54,42,.1);
+  --info:#2668b8; --info-soft:rgba(38,104,184,.1);
+  --shadow-xs:0 1px 2px rgba(20,25,55,.05); --shadow-sm:0 2px 10px -4px rgba(20,25,55,.08); --shadow-md:0 14px 30px -12px rgba(20,25,55,.14); --shadow-lg:0 28px 56px -20px rgba(20,25,55,.18); --shadow-gold:0 10px 22px -10px rgba(143,106,28,.24);
+}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--tx);min-height:100vh;transition:background .2s,color .2s;line-height:1.5;font-size:var(--fs-base);}
+button,input,select{font-family:inherit;}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:4px;}
+strong{font-weight:700;}
+.page{max-width:1280px;margin:0 auto;padding:2rem 1.5rem 3.5rem;}
+@media(max-width:640px){.page{padding:1.25rem 1rem 2.5rem;}}
+.sec{font-size:var(--fs-2xs);font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);display:flex;align-items:center;gap:var(--sp-3);margin:var(--sp-8) 0 var(--sp-4);}
+.sec:first-of-type{margin-top:0;}
+.sec::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--bd),transparent);}
+
+/* ---- status pills ---- */
+.st{display:inline-flex;align-items:center;gap:6px;padding:5px 12px 5px 10px;border-radius:20px;font-size:var(--fs-xs);font-weight:600;letter-spacing:.01em;line-height:1.3;}
+.st::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.st.idle{background:var(--bg-card3);color:var(--tx3);border:1px solid var(--bd);}
+.st.ok{background:var(--pos-soft);color:var(--pos);border:1px solid rgba(56,207,146,.3);}
+.st.err{background:var(--neg-soft);color:var(--neg);border:1px solid rgba(242,89,76,.3);}
+.st.warn{background:rgba(224,166,44,.13);color:#e0a62c;border:1px solid rgba(224,166,44,.3);}
+
+/* ---- fontes de dados: cards ---- */
+.upload-cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);margin-bottom:var(--sp-7);}
+@media(max-width:760px){.upload-cards-grid{grid-template-columns:1fr;}}
+.base-status-bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:var(--sp-4);padding:var(--sp-4) var(--sp-5);background:var(--bg-card);border:1px solid var(--bd);border-radius:var(--r-lg);box-shadow:var(--shadow-xs);transition:border-color .15s,box-shadow .15s;}
+.base-status-bar:hover{border-color:var(--bd2);box-shadow:var(--shadow-sm);}
+.bs-icon{width:38px;height:38px;border-radius:var(--r-md);background:var(--bg-card3);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;}
+.bs-icon .material-symbols-outlined{font-size:19px;}
+.bs-info{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.base-status-label{font-size:var(--fs-xs);color:var(--tx2);font-weight:700;letter-spacing:.01em;}
+.bs-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+@media(max-width:760px){
+  .base-status-bar{grid-template-columns:auto 1fr;grid-template-areas:"icon info" "actions actions";row-gap:var(--sp-4);}
+  .bs-icon{grid-area:icon;} .bs-info{grid-area:info;} .bs-actions{grid-area:actions;width:100%;}
+  .bs-actions .btn-clear-base,.bs-actions .btn-update-base{flex:1;justify-content:center;}
+}
+.btn-update-base{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:var(--r-sm);font-size:var(--fs-xs);font-weight:700;cursor:pointer;border:1px solid var(--gold-soft2);background:var(--gold-soft);color:var(--gold2);font-family:inherit;transition:all .15s;white-space:nowrap;}
+.btn-update-base .material-symbols-outlined{font-size:15px;}
+.btn-update-base:hover{border-color:var(--gold);background:var(--gold-soft2);box-shadow:var(--shadow-gold);transform:translateY(-1px);}
+.btn-clear-base{display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:var(--r-sm);font-size:var(--fs-xs);font-weight:600;cursor:pointer;border:1px solid var(--bd);background:var(--bg-card3);color:var(--tx2);font-family:inherit;transition:all .15s;white-space:nowrap;}
+.btn-clear-base .material-symbols-outlined{font-size:15px;}
+.btn-clear-base:hover{border-color:var(--neg);color:var(--neg);background:var(--neg-soft);}
+.btn-clear-base.active{border-color:var(--gold);color:var(--gold2);background:var(--gold-soft);}
+.btn-clear-base.active:hover{border-color:var(--gold);color:var(--gold2);background:var(--gold-soft2);}
+#btnToggleSemPatrimonio.active .material-symbols-outlined{color:var(--gold2);}
+#btnExportarExcel{border-color:rgba(56,207,146,.3);color:var(--pos);background:var(--pos-soft);}
+#btnExportarExcel:hover{border-color:var(--pos);color:var(--pos);background:rgba(56,207,146,.2);}
+
+/* ---- toolbar de clientes ---- */
+.clients-toolbar{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;margin-bottom:var(--sp-3);}
+.advanced-filters-card{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;background:var(--bg-card);border:1px solid var(--bd);border-radius:var(--r-lg);padding:var(--sp-4) var(--sp-5);margin-bottom:var(--sp-3);box-shadow:var(--shadow-xs);}
+.advanced-filters-card.collapsed{display:none;}
+.ios-switch{display:inline-flex;align-items:center;cursor:pointer;user-select:none;}
+.ios-switch input{display:none;}
+.ios-switch-track{width:38px;height:22px;background:var(--bg-card3);border:1px solid var(--bd);border-radius:999px;position:relative;transition:background .2s,border-color .2s;flex-shrink:0;}
+.ios-switch-track::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--tx3);transition:transform .2s,background .2s;}
+.ios-switch input:checked + .ios-switch-track{background:var(--gold-soft2);border-color:var(--gold);}
+.ios-switch input:checked + .ios-switch-track::after{transform:translateX(16px);background:var(--gold);}
+.ios-switch-label{font-size:var(--fs-xs);font-weight:600;color:var(--tx2);margin-left:8px;white-space:nowrap;}
+.search-box{background:var(--bg-card);border:1px solid var(--bd);border-radius:var(--r-sm);padding:9px 14px;display:flex;align-items:center;gap:9px;flex:1;min-width:200px;max-width:340px;transition:border-color .15s,box-shadow .15s;}
+.search-box:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft);}
+.search-box svg{flex-shrink:0;opacity:.5;color:var(--tx2);}
+.search-box input{background:transparent;border:none;color:var(--tx);font-size:var(--fs-sm);outline:none;width:100%;font-family:inherit;}
+.search-box input::placeholder{color:var(--tx3);}
+.toolbar-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto;}
+.clients-stats{font-size:var(--fs-2xs);color:var(--tx3);white-space:nowrap;font-variant-numeric:tabular-nums;margin-left:8px;}
+@media(max-width:640px){.clients-toolbar{flex-direction:column;align-items:stretch;}.search-box{max-width:none;}.toolbar-actions{margin-left:0;justify-content:space-between;}.clients-stats{margin-left:0;}}
+
+.period-filter-label{font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);}
+.bm-segment{display:inline-flex;gap:3px;border-radius:999px;border:1px solid var(--bd);background:var(--bg-card3);padding:3px;flex-wrap:wrap;}
+.bm-seg-item{padding:6px 14px;font-size:var(--fs-xs);font-weight:600;cursor:pointer;background:transparent !important;color:var(--tx2);border:1px solid transparent;border-radius:999px;transition:background .15s,color .15s,border-color .15s;user-select:none;white-space:nowrap;}
+.bm-seg-item:hover{color:var(--tx);}
+.bm-seg-item.active{background:var(--gold-soft) !important;color:var(--gold2) !important;border-color:var(--gold);font-weight:700;}
+.bm-seg-item.active.ok{background:var(--pos-soft) !important;color:var(--pos) !important;border-color:var(--pos);}
+.bm-seg-item.active.warn{background:var(--neg-soft) !important;color:var(--neg) !important;border-color:var(--neg);}
+
+/* ---- dropdown de período (igual ao script de rentabilidade) ---- */
+.cdi-period-btn{display:inline-flex;align-items:center;gap:6px;background:var(--bg-card3);border:1px solid var(--bd);border-radius:999px;padding:7px 12px 7px 14px;font-size:var(--fs-xs);font-weight:600;color:var(--tx2);cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s,box-shadow .15s;white-space:nowrap;}
+.cdi-period-btn:hover{border-color:var(--gold);color:var(--tx);}
+.cdi-period-btn:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft);outline:none;}
+.cdi-period-btn .material-symbols-outlined{font-size:17px;color:var(--tx3);}
+.ms-dropdown{position:relative;display:inline-flex;}
+.ms-dropdown-panel{position:absolute;top:calc(100% + 6px);left:0;min-width:190px;max-height:280px;overflow-y:auto;background:var(--bg-card2);border:1px solid var(--bd2);border-radius:var(--r-md);box-shadow:var(--shadow-lg);padding:6px;z-index:60;}
+.ms-dropdown-panel.hidden{display:none;}
+.ms-option{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--r-sm);font-size:var(--fs-xs);color:var(--tx2);cursor:pointer;user-select:none;transition:background .12s,color .12s;}
+.ms-option:hover{background:var(--bg-card3);color:var(--tx);}
+.ms-option input[type="checkbox"]{accent-color:var(--gold);width:14px;height:14px;cursor:pointer;flex-shrink:0;}
+.ms-option-all{font-weight:700;color:var(--gold2);}
+.ms-divider{height:1px;background:var(--bd);margin:5px 2px;}
+
+/* ---- lista de clientes ---- */
+.clients-table-wrap{background:var(--bg-card);border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-xs);}
+.clients-table-head{display:grid;grid-template-columns:1fr 90px 110px 110px 120px 36px;padding:12px 20px;border-bottom:1px solid var(--bd);font-size:var(--fs-2xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3);background:var(--bg-card2);}
+.clients-table-body{max-height:460px;overflow-y:auto;}
+.clients-table-body::-webkit-scrollbar{width:5px;}
+.clients-table-body::-webkit-scrollbar-track{background:transparent;}
+.clients-table-body::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px;}
+.clients-table-body::-webkit-scrollbar-thumb:hover{background:var(--gold);}
+.client-row{display:grid;grid-template-columns:1fr 90px 110px 110px 120px 36px;align-items:center;padding:13px 20px;border-bottom:1px solid var(--bd);cursor:pointer;transition:background .12s;position:relative;}
+.client-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity .12s;}
+.client-row:last-child{border-bottom:none;}
+.client-row:hover{background:var(--bg-card2);}
+.client-row.active{background:var(--gold-soft);}
+.client-row.active::before{opacity:1;}
+.client-row.active .cr-id{color:var(--gold2);}
+.cr-id{font-size:var(--fs-md);font-weight:600;color:var(--tx);display:flex;align-items:center;gap:14px;min-width:0;}
+.cr-index{font-family:'DM Mono',monospace;font-size:var(--fs-sm);font-weight:400;color:var(--tx3);flex-shrink:0;min-width:22px;text-align:right;font-variant-numeric:tabular-nums;}
+.client-row.active .cr-index{color:var(--tx2);}
+.cr-id-text{display:flex;flex-direction:column;gap:3px;min-width:0;}
+.cr-id .code{font-family:'DM Mono',monospace;font-size:var(--fs-2xs);color:var(--gold);opacity:.85;font-weight:500;letter-spacing:.02em;}
+.cr-c{font-size:var(--fs-sm);font-family:'DM Mono',monospace;text-align:center;font-variant-numeric:tabular-nums;color:var(--tx2);}
+.cr-c.pos{color:var(--pos);font-weight:400;}
+.cr-c.neg{color:var(--neg);font-weight:400;}
+.cr-c.na{color:var(--tx3);opacity:.5;}
+.cr-arrow{display:flex;justify-content:flex-end;opacity:0;transform:translateX(-3px);transition:opacity .15s,transform .15s;}
+.client-row:hover .cr-arrow,.client-row.active .cr-arrow{opacity:1;transform:translateX(0);}
+.cr-arrow svg{stroke:var(--gold);}
+.clients-table-footer{padding:11px 20px;border-top:1px solid var(--bd);font-size:var(--fs-2xs);color:var(--tx3);text-align:right;background:var(--bg-card2);}
+@media(max-width:760px){.clients-table-head,.client-row{grid-template-columns:1fr 60px 80px 80px 28px;}.clients-table-head span:nth-child(5),.cr-c:nth-child(5){display:none;}}
+@media(max-width:520px){.clients-table-head,.client-row{grid-template-columns:1fr 60px 80px 28px;padding-left:14px;padding-right:14px;}.clients-table-head span:nth-child(4),.cr-c:nth-child(4){display:none;}}
+
+/* ---- painel de resultado ---- */
+.result-panel{background:var(--bg-card);border:1px solid var(--bd);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-md);}
+.rp-header{padding:var(--sp-5) var(--sp-6);border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-3);align-items:flex-start;background:linear-gradient(180deg,var(--bg-card2),var(--bg-card));}
+.rp-share-btns{display:flex;gap:8px;}
+.rp-share-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:var(--r-sm);border:1px solid var(--bd2);background:var(--bg-card3);color:var(--tx3);cursor:pointer;transition:background .2s ease,border-color .2s ease,color .2s ease;}
+.rp-share-btn .material-symbols-outlined{font-size:19px;}
+.rp-share-btn:hover{background:var(--bg-card2);color:var(--tx);border-color:var(--bd2);}
+.rp-share-btn.success{background:var(--pos-soft);border-color:rgba(56,207,146,.4);color:var(--pos);}
+#shareCaptureArea.capturing .rp-share-btns{visibility:hidden;}
+.rp-title{font-size:var(--fs-lg);font-weight:700;letter-spacing:-.01em;line-height:1.3;}
+.rp-client{font-size:var(--fs-xs);color:var(--tx3);font-family:'DM Mono',monospace;margin-top:2px;}
+@media(max-width:480px){.rp-header{flex-direction:column;}}
+
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-3);padding:var(--sp-5) var(--sp-6);border-bottom:1px solid var(--bd);}
+@media(max-width:700px){.kpi-row{grid-template-columns:1fr;}}
+.kpi-card{background:var(--bg-card2);border:1px solid var(--bd);border-radius:var(--r-md);padding:var(--sp-4) var(--sp-5);}
+.kpi-label{font-size:var(--fs-2xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);margin-bottom:6px;}
+.kpi-val{font-size:var(--fs-xl);font-weight:700;font-variant-numeric:tabular-nums;color:var(--tx);}
+.kpi-val.pos{color:var(--pos);} .kpi-val.neg{color:var(--neg);}
+.kpi-sub{font-size:var(--fs-xs);color:var(--tx3);margin-top:2px;}
+
+.classes-wrap{padding:var(--sp-5) var(--sp-6);border-bottom:1px solid var(--bd);}
+.classes-title{font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);margin-bottom:var(--sp-3);}
+.classes-header{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);margin-bottom:var(--sp-3);}
+.classes-header .classes-title{margin-bottom:0;}
+.classes-nav-btn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;border:1px solid var(--bd2);background:var(--bg-card3);color:var(--tx3);cursor:pointer;transition:all .15s ease;flex-shrink:0;}
+.classes-nav-btn:hover:not(:disabled){background:var(--bg-card2);color:var(--tx);border-color:var(--gold);}
+.classes-nav-btn:disabled{opacity:.3;cursor:default;}
+.classes-nav-btn .material-symbols-outlined{font-size:16px;}
+.classes-carousel{overflow:hidden;}
+.classes-track{display:flex;transition:transform .32s cubic-bezier(.4,0,.2,1);}
+.classes-page{flex:0 0 100%;min-width:0;}
+.classes-dots{display:flex;justify-content:center;gap:6px;margin-top:var(--sp-4);}
+.classes-dot{width:6px;height:6px;border-radius:50%;background:var(--bd2);cursor:pointer;transition:background .15s ease,transform .15s ease;border:none;padding:0;}
+.classes-dot:hover{background:var(--tx3);}
+.classes-dot.active{background:var(--gold);transform:scale(1.35);}
+.rec-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd);}
+.rec-row:last-child{border-bottom:none;}
+.rec-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.rec-dot.manter{background:var(--tx3);}
+.rec-dot.alocar{background:var(--pos);}
+.rec-dot.retirar{background:var(--neg);}
+.rec-nome{flex:0 0 120px;font-size:var(--fs-xs);color:var(--tx2);}
+.rec-badge{font-size:var(--fs-2xs);font-weight:600;padding:2px 9px;border-radius:20px;white-space:nowrap;}
+.rec-badge.manter{background:var(--bg-card3);color:var(--tx3);}
+.rec-badge.alocar{background:var(--pos-soft);color:var(--pos);}
+.rec-badge.retirar{background:var(--neg-soft);color:var(--neg);}
+.rec-valor{margin-left:auto;font-size:var(--fs-xs);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.rec-valor.alocar{color:var(--pos);}
+.rec-valor.retirar{color:var(--neg);}
+.rec-valor.manter{color:var(--tx3);}
+@media(max-width:600px){.rec-row{flex-wrap:wrap;}.rec-nome{flex:1 1 100%;}.rec-valor{margin-left:0;}}
+.classe-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd);}
+.classe-item:last-child{border-bottom:none;}
+.dot-class{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.classe-nome-label{font-size:var(--fs-sm);color:var(--tx2);width:150px;flex-shrink:0;}
+.dual-bar{flex:1;position:relative;height:8px;background:var(--bg-card3);border-radius:10px;overflow:visible;}
+.bar-atual{position:absolute;top:0;left:0;height:100%;border-radius:10px;background:var(--info);transition:width .4s ease;}
+.bar-alvo{position:absolute;top:-3px;height:14px;width:2.5px;background:var(--gold);border-radius:2px;box-shadow:0 0 0 2px var(--bg-card);}
+.classe-pcts{display:flex;flex-direction:column;align-items:flex-end;width:110px;flex-shrink:0;font-family:'DM Mono',monospace;font-size:var(--fs-xs);}
+.pct-atual{color:var(--tx);font-weight:700;}
+.pct-alvo{color:var(--tx3);}
+@media(max-width:600px){.classe-item{flex-wrap:wrap;}.classe-nome-label{width:auto;flex:1;}.dual-bar{width:100%;order:3;flex:1 1 100%;}.classe-pcts{width:auto;}}
+
+.chart-wrap{padding:var(--sp-6);}
+.chart-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:var(--sp-4);}
+.chart-canvas-box{position:relative;height:280px;}
+.chart-tooltip{position:absolute;pointer-events:none;opacity:0;transition:opacity .1s;background:var(--bg-card2);border:1px solid var(--bd2);border-left:3px solid var(--gold);border-radius:var(--r-sm);padding:11px 15px;min-width:180px;z-index:20;box-shadow:var(--shadow-lg);}
+.chart-tooltip .ct-month{font-size:var(--fs-xs);font-weight:700;color:var(--tx);margin-bottom:7px;}
+.chart-tooltip .ct-row{display:flex;justify-content:space-between;gap:14px;font-size:var(--fs-xs);margin-bottom:4px;white-space:nowrap;}
+.chart-tooltip .ct-row:last-child{margin-bottom:0;}
+.chart-tooltip .ct-divider{height:1px;background:var(--bd);margin:7px 0;}
+.chart-tooltip .ct-row.ct-extra span:first-child{color:var(--tx2);font-weight:500;}
+.perfil-badge{display:inline-flex;align-items:center;padding:3px 11px;border-radius:20px;font-size:var(--fs-2xs);font-weight:600;letter-spacing:.04em;text-transform:uppercase;border:1px solid transparent;white-space:nowrap;line-height:1.5;}
+.perfil-badge.pb-agressivo{background:var(--neg-soft);color:var(--neg);border-color:rgba(242,89,76,.35);}
+.perfil-badge.pb-conservador{background:var(--pos-soft);color:var(--pos);border-color:rgba(56,207,146,.35);}
+.perfil-badge.pb-moderado{background:var(--info-soft);color:var(--info);border-color:rgba(99,168,236,.35);}
+.empty{padding:var(--sp-9) var(--sp-5);text-align:center;}
+.empty-icon{font-size:2.1rem;margin-bottom:var(--sp-3);opacity:.55;}
+.empty-text{font-size:var(--fs-base);color:var(--tx3);max-width:400px;margin:0 auto;line-height:1.65;}
+.footer{text-align:center;font-size:var(--fs-xs);color:var(--tx3);padding:var(--sp-7);border-top:1px solid var(--bd);margin-top:var(--sp-7);}
+
+/* ---- modais ---- */
+.modal-overlay{position:fixed;inset:0;background:rgba(5,7,13,.74);z-index:500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);padding:1rem;}
+.modal-overlay.hidden{display:none;}
+.modal-box{background:var(--bg-card);border:1px solid var(--bd2);border-radius:var(--r-lg);padding:var(--sp-6);width:100%;max-width:380px;box-shadow:var(--shadow-lg);max-height:92vh;overflow-y:auto;}
+.modal-box::-webkit-scrollbar{width:6px;}
+.modal-box::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px;}
+/* Editor de carteiras: layout compacto para caber na tela */
+#modalEditorCarteiras .modal-box{padding:var(--sp-5);}
+#modalEditorCarteiras .modal-sub{margin-bottom:var(--sp-3);font-size:var(--fs-xs);line-height:1.45;}
+#modalEditorCarteiras #editorClassesBox > div{padding:5px 0 !important;}
+#modalEditorCarteiras .editor-pct{padding:6px 10px !important;}
+#modalEditorCarteiras .modal-actions{position:sticky;bottom:0;background:var(--bg-card);padding-top:var(--sp-3);margin-top:var(--sp-2);}
+.modal-box.wide{max-width:580px;}
+.modal-title{font-size:var(--fs-lg);font-weight:700;margin-bottom:6px;}
+.modal-sub{font-size:var(--fs-sm);color:var(--tx3);margin-bottom:var(--sp-5);line-height:1.6;}
+.modal-input{width:100%;background:var(--bg-card3);border:1px solid var(--bd);border-radius:var(--r-sm);padding:11px 40px 11px 14px;color:var(--tx);font-size:var(--fs-base);font-family:inherit;outline:none;margin-bottom:var(--sp-3);}
+.modal-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft);}
+.modal-input-wrap{position:relative;margin-bottom:var(--sp-3);}
+.modal-input-wrap .modal-input{margin-bottom:0;}
+.modal-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:transparent;border:none;cursor:pointer;color:var(--tx3);display:flex;align-items:center;padding:4px;}
+.modal-eye:hover{color:var(--gold);}
+.modal-actions{display:flex;gap:9px;margin-top:var(--sp-2);}
+.modal-btn{flex:1;padding:11px;border-radius:var(--r-sm);font-size:var(--fs-base);font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;}
+.modal-btn.cancel{background:transparent;border:1px solid var(--bd);color:var(--tx2);}
+.modal-btn.cancel:hover{border-color:var(--gold);color:var(--gold2);background:var(--gold-soft);}
+.modal-btn.confirm{background:linear-gradient(180deg,var(--gold2),var(--gold));border:none;color:#0b1420;}
+.modal-btn.confirm:hover{filter:brightness(1.08);box-shadow:var(--shadow-gold);}
+.modal-btn.confirm:disabled{opacity:.4;cursor:default;filter:none;box-shadow:none;}
+.modal-btn.confirm-danger{background:var(--bg-card3);border:1px solid rgba(242,89,76,.4);color:var(--neg);}
+.modal-btn.confirm-danger:hover{background:var(--neg-soft);border-color:var(--neg);}
+.modal-err{font-size:var(--fs-sm);color:var(--neg);margin-bottom:var(--sp-3);display:none;}
+.modal-dropzone{border:1.5px dashed var(--bd2);border-radius:var(--r-md);padding:var(--sp-5);text-align:center;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.modal-dropzone:hover{border-color:var(--gold);background:var(--gold-soft);}
+.modal-dropzone.ok{border-style:solid;border-color:rgba(56,207,146,.4);background:var(--pos-soft);}
+.dz-icon{font-size:1.35rem;margin-bottom:3px;}
+.dz-text{font-size:var(--fs-sm);color:var(--tx2);}
+.upload-split{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);margin-bottom:var(--sp-2);}
+@media (max-width:520px){.upload-split{grid-template-columns:1fr;}}
+.file-preview{border:1px solid var(--bd);border-radius:var(--r-md);padding:var(--sp-3);background:var(--bg-card3);font-size:var(--fs-xs);}
+.file-preview-empty{color:var(--tx3);text-align:center;padding:var(--sp-4) var(--sp-2);}
+.file-preview-name{display:flex;align-items:center;gap:6px;font-weight:700;color:var(--tx);margin-bottom:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.file-preview-row{display:flex;justify-content:space-between;color:var(--tx2);padding:3px 0;font-family:'DM Mono',monospace;font-size:var(--fs-2xs);}
+.file-preview-row span:first-child{font-family:inherit;color:var(--tx3);}
+.file-preview-warn{display:flex;align-items:center;gap:5px;color:#e0a62c;font-size:var(--fs-2xs);margin-top:9px;padding-top:9px;border-top:1px solid var(--bd);}
+.st-bar{margin-bottom:0;}
+@media(max-width:520px){.modal-box{padding:var(--sp-5);}.modal-actions{flex-direction:column;}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR PADRÃO HUB -->
+<div class="hub-topbar">
+    <div class="hub-topbar-left">
+        <div class="hub-pbf-badge">PBF</div>
+        <span class="hub-topbar-title">Hub Financeiro</span>
+        <button class="hub-back-btn" id="hubBackBtn">
+            <span class="material-symbols-outlined">arrow_back</span>
+            <span>Voltar ao início</span>
+        </button>
+    </div>
+    <div class="hub-topbar-center">
+        <span class="hub-active-tool">Aderência de Carteira | Clientes</span>
+    </div>
+    <div class="hub-topbar-right">
+        <button class="hub-newtab-btn" id="hubNewTabBtn">
+            <span class="material-symbols-outlined">open_in_new</span>
+            <span>Nova aba</span>
+        </button>
+        <span class="hub-clock" id="hubClock"></span>
+        <button class="hub-theme-btn" id="hubThemeBtn">🌙</button>
+    </div>
+</div>
+
+<div class="page">
+
+    <div class="sec">Fontes de dados</div>
+    <div class="upload-cards-grid">
+        <!-- Card 1: Cadastro de Clientes (nome + código + perfil) — sem senha -->
+        <div class="base-status-bar">
+            <input type="file" id="fileCadastro" accept=".xlsx,.xls" style="display:none">
+            <div class="bs-icon"><span class="material-symbols-outlined">badge</span></div>
+            <div class="bs-info">
+                <span class="base-status-label">Cadastro de Clientes</span>
+                <span class="st idle" id="stCadastro">Aguardando arquivo…</span>
+            </div>
+            <div class="bs-actions">
+                <button class="btn-clear-base" id="btnLimparCadastro"><span class="material-symbols-outlined">delete</span>Limpar</button>
+                <button class="btn-update-base" id="btnCarregarCadastro"><span class="material-symbols-outlined">badge</span>Carregar Excel</button>
+            </div>
+        </div>
+        <!-- Card 2: Posições dos Clientes — com senha (carteiras2025) -->
+        <div class="base-status-bar">
+            <div class="bs-icon"><span class="material-symbols-outlined">pie_chart</span></div>
+            <div class="bs-info">
+                <span class="base-status-label">Posições dos Clientes</span>
+                <span class="st idle" id="stPosicoes">Nenhum dado carregado</span>
+            </div>
+            <div class="bs-actions">
+                <button class="btn-clear-base" id="btnLimparPosicoes"><span class="material-symbols-outlined">delete</span>Limpar</button>
+                <button class="btn-update-base" id="btnAtualizarPosicoes"><span class="material-symbols-outlined">upload</span>Carregar base</button>
+            </div>
+        </div>
+        <!-- Card 3: XPerformance — PDF de UM cliente específico (fonte alternativa de posições) -->
+        <div class="base-status-bar">
+            <input type="file" id="fileXperformance" accept=".pdf" style="display:none">
+            <div class="bs-icon"><span class="material-symbols-outlined">insights</span></div>
+            <div class="bs-info">
+                <span class="base-status-label">XPerformance (PDF · 1 cliente)</span>
+                <span class="st idle" id="stXperformance">Nenhum dado carregado</span>
+            </div>
+            <div class="bs-actions">
+                <button class="btn-clear-base" id="btnLimparXperformance"><span class="material-symbols-outlined">delete</span>Limpar</button>
+                <button class="btn-update-base" id="btnCarregarXperformance"><span class="material-symbols-outlined">picture_as_pdf</span>Carregar PDF</button>
+            </div>
+        </div>
+        <!-- Card 4: Base de Rentabilidade — com senha (carteiras2025), igual ao projeto Rentabilidade -->
+        <div class="base-status-bar">
+            <div class="bs-icon"><span class="material-symbols-outlined">query_stats</span></div>
+            <div class="bs-info">
+                <span class="base-status-label">Base de Rentabilidade</span>
+                <span class="st idle" id="stRentabilidade">Nenhum dado carregado</span>
+            </div>
+            <div class="bs-actions">
+                <button class="btn-clear-base" id="btnLimparRentabilidade"><span class="material-symbols-outlined">delete</span>Limpar</button>
+                <button class="btn-update-base" id="btnAtualizarRentabilidade"><span class="material-symbols-outlined">upload</span>Carregar base</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="base-status-bar" style="margin-bottom:var(--sp-7);">
+        <div class="bs-icon"><span class="material-symbols-outlined">tune</span></div>
+        <div class="bs-info">
+            <span class="base-status-label">Carteiras Recomendadas (base da aderência)</span>
+            <span class="st idle" id="stCarteiras">🔒 Percentuais por perfil · edição protegida por senha</span>
+        </div>
+        <div class="bs-actions">
+            <button class="btn-update-base" id="btnEditarCarteiras"><span class="material-symbols-outlined">lock</span>Editar %</button>
+        </div>
+    </div>
+
+    <div class="sec">Clientes</div>
+    <div class="clients-toolbar">
+        <div class="search-box">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="clientSearch" placeholder="Buscar por código ou nome" autocomplete="off">
+        </div>
+        <div class="toolbar-actions">
+            <button class="btn-clear-base" id="btnLimparBusca"><span class="material-symbols-outlined">close</span>Limpar</button>
+            <button class="btn-clear-base" id="btnExportarExcel"><span class="material-symbols-outlined">download</span>Exportar Excel</button>
+            <span class="clients-stats" id="clientsStats"></span>
+            <label class="ios-switch" id="advFiltersToggleWrap">
+                <input type="checkbox" id="advFiltersToggle">
+                <span class="ios-switch-track"></span>
+                <span class="ios-switch-label">Filtros avançados</span>
+            </label>
+        </div>
+    </div>
+    <div class="advanced-filters-card collapsed" id="advancedFiltersCard">
+        <button class="btn-clear-base" id="btnToggleSemPatrimonio"><span class="material-symbols-outlined">filter_alt</span>Ocultar sem patrimônio</button>
+        <span class="period-filter-label">Aderência × CDI</span>
+        <div class="bm-segment" id="combinedFilterControls">
+            <div class="bm-seg-item active" data-f="">Todos</div>
+            <div class="bm-seg-item" data-f="ad80_acima">Aderência ≥80% · Acima do CDI</div>
+            <div class="bm-seg-item" data-f="ad80_abaixo">Aderência ≥80% · Abaixo do CDI</div>
+            <div class="bm-seg-item" data-f="sub80_acima">Aderência &lt;80% · Acima do CDI</div>
+            <div class="bm-seg-item" data-f="sub80_abaixo">Aderência &lt;80% · Abaixo do CDI</div>
+        </div>
+        <span class="period-filter-label" style="margin-left:4px;">Período do retorno mensal</span>
+        <div class="ms-dropdown" id="cdiPeriodDropdown">
+            <button type="button" class="cdi-period-btn" id="cdiPeriodBtn">
+                <span id="cdiPeriodBtnLabel">Todo o histórico</span>
+                <span class="material-symbols-outlined">expand_more</span>
+            </button>
+            <div class="ms-dropdown-panel hidden" id="cdiPeriodPanel">
+                <div class="ms-option ms-option-all" id="cdiPeriodAllBtn">Todo o histórico</div>
+                <div class="ms-divider"></div>
+                <div id="cdiPeriodYearOptions"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clients-table-wrap">
+        <div class="clients-table-head">
+            <span>Cliente</span>
+            <span style="text-align:center">Perfil</span>
+            <span style="text-align:center">Aderência</span>
+            <span style="text-align:center">% do CDI</span>
+            <span style="text-align:center">Patrimônio</span>
+            <span></span>
+        </div>
+        <div class="clients-table-body" id="clientsGrid"></div>
+        <div class="clients-table-footer" id="clientsFooter"></div>
+    </div>
+
+    <div id="resultSection" style="margin-top:1.75rem;">
+        <div class="result-panel">
+            <div class="empty">
+                <div class="empty-icon">📊</div>
+                <div class="empty-text">Carregue o Cadastro, as Posições e a Rentabilidade, depois selecione um cliente na lista para ver a aderência à carteira recomendada.</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="footer">Pleno Gestão de Investimentos · Aderência de Carteira · Uso exclusivo interno</div>
+
+<!-- Modal: senha para editar as Carteiras Recomendadas -->
+<div class="modal-overlay hidden" id="modalSenha">
+    <div class="modal-box">
+        <div class="modal-title">🔒 Editar Carteiras Recomendadas</div>
+        <div class="modal-sub">Insira a senha para editar os percentuais das carteiras recomendadas por perfil.</div>
+        <div class="modal-err" id="modalSenhaErr">Senha incorreta. Tente novamente.</div>
+        <div class="modal-input-wrap">
+            <input type="text" class="modal-input" id="modalSenhaInput" placeholder="Senha" autocomplete="off" spellcheck="false">
+            <button type="button" class="modal-eye" id="btnToggleSenha" tabindex="-1"><span class="material-symbols-outlined" style="font-size:18px;" id="eyeIcon">visibility</span></button>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn cancel" id="modalSenhaCancelar">Cancelar</button>
+            <button class="modal-btn confirm" id="modalSenhaConfirmar">Confirmar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: upload de Posições -->
+<div class="modal-overlay hidden" id="modalUploadPosicoes">
+    <div class="modal-box wide">
+        <div class="modal-title">📥 Carregar Posições dos Clientes</div>
+        <div class="modal-sub">Carregue o relatório de posições (abas <strong>fundos_investimento, renda_fixa, previdencia, tesouro_direto, coe, ações, fii</strong>). Os dados ficam disponíveis apenas nesta sessão.</div>
+        <div class="upload-split">
+            <div class="modal-dropzone" id="dzPosicoesModal">
+                <input type="file" id="filePosicoesModal" accept=".xlsx,.xls" style="display:none">
+                <div class="dz-icon">⬆</div>
+                <div class="dz-text"><strong>Clique ou arraste</strong><br>arquivo .xlsx</div>
+            </div>
+            <div class="file-preview" id="filePreviewPosicoes"><div class="file-preview-empty">Nenhum arquivo selecionado</div></div>
+        </div>
+        <div class="st-bar" id="stPosicoesModal"><span class="st idle">Aguardando arquivo…</span></div>
+        <div class="modal-actions">
+            <button class="modal-btn cancel" id="modalPosicoesFechar">Fechar</button>
+            <button class="modal-btn cancel" id="modalPosicoesLimpar">🗑️ Limpar</button>
+            <button class="modal-btn confirm" id="modalPosicoesSalvar" disabled>📥 Carregar dados</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: upload de Rentabilidade (mesma lógica do projeto Rentabilidade) -->
+<div class="modal-overlay hidden" id="modalUploadRent">
+    <div class="modal-box wide">
+        <div class="modal-title">📈 Carregar Base de Rentabilidade</div>
+        <div class="modal-sub">Carregue o arquivo Excel com a aba <strong>EVOLUÇÃO PATRIMONIAL</strong> (colunas: Cliente, Data, Rentabilidade, CDI, IPCA, IBOV, S&amp;P 500, IFIX).</div>
+        <div class="upload-split">
+            <div class="modal-dropzone" id="dzRentModal">
+                <input type="file" id="fileRentModal" accept=".xlsx,.xls" style="display:none">
+                <div class="dz-icon">⬆</div>
+                <div class="dz-text"><strong>Clique ou arraste</strong><br>arquivo .xlsx</div>
+            </div>
+            <div class="file-preview" id="filePreviewRent"><div class="file-preview-empty">Nenhum arquivo selecionado</div></div>
+        </div>
+        <div class="st-bar" id="stRentModal"><span class="st idle">Aguardando arquivo…</span></div>
+        <div class="modal-actions">
+            <button class="modal-btn cancel" id="modalRentFechar">Fechar</button>
+            <button class="modal-btn cancel" id="modalRentLimpar">🗑️ Limpar</button>
+            <button class="modal-btn confirm" id="modalRentSalvar" disabled>📥 Carregar dados</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: confirmação genérica -->
+<div class="modal-overlay hidden" id="modalConfirmAcao">
+    <div class="modal-box">
+        <div class="modal-title" id="confirmActionTitle">Confirmar ação</div>
+        <div class="modal-sub" id="confirmActionMsg"></div>
+        <div class="modal-actions">
+            <button class="modal-btn cancel" id="confirmActionCancel">Cancelar</button>
+            <button class="modal-btn confirm-danger" id="confirmActionConfirm">Limpar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: EDITOR das Carteiras Recomendadas (protegido por senha) -->
+<div class="modal-overlay hidden" id="modalEditorCarteiras">
+    <div class="modal-box wide">
+        <div class="modal-title">✏️ Editar Carteiras Recomendadas</div>
+        <div class="modal-sub">Ajuste os percentuais por classe de cada perfil. A soma de cada perfil deve fechar em 100%. As alterações passam a valer na hora no cálculo de aderência — clique em <strong>Baixar HTML atualizado</strong> para salvar um novo arquivo já com esses valores.</div>
+        <div class="bm-segment" id="editorPerfilTabs" style="margin-bottom:var(--sp-4);"></div>
+        <div id="editorClassesBox"></div>
+        <div id="editorSoma" style="text-align:right;font-family:'DM Mono',monospace;font-size:var(--fs-sm);font-weight:700;margin-top:var(--sp-3);"></div>
+        <div class="modal-actions" style="flex-wrap:wrap;">
+            <button class="modal-btn cancel" id="editorFechar">Fechar</button>
+            <button class="modal-btn cancel" id="editorResetar">↺ Restaurar padrão</button>
+            <button class="modal-btn confirm" id="editorBaixar">💾 Baixar HTML atualizado</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ==== CARTEIRAS RECOMENDADAS (embutido, vindo do projeto "Carteiras Recomendadas") ====
+// % alvo por classe de ativo, por perfil. Se quiser editar esses números depois,
+// é só pedir — por ora estão fixos aqui, iguais aos do arquivo de Carteiras Recomendadas.
+const CARTEIRAS = {
+    'Conservador': { classes: { 'Prefixado': 15, 'Pós-fixado': 85, 'Inflação': 0, 'Multimercado': 0, 'Renda Variável': 0, 'Renda Fixa Global': 0, 'Renda Variável Global': 0 } },
+    'Moderado':    { classes: { 'Prefixado': 13, 'Pós-fixado': 53.5, 'Inflação': 20, 'Multimercado': 7.5, 'Renda Variável': 6, 'Renda Fixa Global': 0, 'Renda Variável Global': 0 } },
+    'Agressivo':   { classes: { 'Prefixado': 15, 'Pós-fixado': 43, 'Inflação': 24, 'Multimercado': 8, 'Renda Variável': 10, 'Renda Fixa Global': 0, 'Renda Variável Global': 0 } }
+};
+const CLASSES_ORDER = ['Prefixado', 'Pós-fixado', 'Inflação', 'Multimercado', 'Renda Variável', 'Renda Fixa Global', 'Renda Variável Global'];
+const CLASS_COLORS = { 'Prefixado': '#5DADE2', 'Pós-fixado': '#38cf92', 'Inflação': '#BB8FCE', 'Multimercado': '#E67E22', 'Renda Variável': '#cba869', 'Renda Fixa Global': '#1ABC9C', 'Renda Variável Global': '#f2594c' };
+
+// ==== MAPEAMENTO DE LEITURA — PLANILHA DE POSIÇÕES ====
+// Confirmado linha a linha com o Excel real (relatorio_posicoes). Cada aba usa uma
+// coluna diferente pra decidir a classe (MarketType ou Strategy), exceto "fii" que é
+// sempre classificado como Renda Variável, independente do conteúdo das colunas.
+const MAP_FUNDOS_MARKETTYPE = {
+    'Fundo de Investimento Referenciado': 'Pós-fixado',
+    'Fundo de Investimento Renda Fixa': 'Pós-fixado',
+    'Fundo de Investimento em Direitos Creditórios': 'Pós-fixado',
+    'Fundo de Investimento Multimercado': 'Multimercado',
+    'Fundo de Investimento Renda Variável': 'Renda Variável',
+    'Fundo de Investimento Internacional': 'Renda Variável Global',
+    'Alternativo': 'Renda Variável Global'
+};
+const MAP_RENDA_FIXA_STRATEGY = { 'FixedRate': 'Prefixado', 'FloatingRate': 'Pós-fixado', 'Inflation': 'Inflação' };
+const MAP_PREVIDENCIA_STRATEGY = { 'HedgeFund': 'Multimercado', 'FloatingRate': 'Pós-fixado', 'Inflation': 'Inflação', 'Equity': 'Renda Variável', 'FixedRate': 'Multimercado' };
+const MAP_TESOURO_STRATEGY = { 'FixedRate': 'Prefixado', 'FloatingRate': 'Pós-fixado', 'Inflation': 'Inflação' };
+const MAP_COE_STRATEGY = { 'Inflation': 'Inflação', 'Equity': 'Renda Variável', 'FixedRate': 'Prefixado', 'FloatingRate': 'Pós-fixado', 'GlobalEquity': 'Renda Variável Global', 'HedgeFund': 'Multimercado' };
+const MAP_ACOES_STRATEGY = { 'Equity': 'Renda Variável', 'Alternative': 'Renda Variável Global', 'FloatingRate': 'Pós-fixado', 'GlobalEquity': 'Renda Variável Global' };
+
+// ==== ESTADO ====
+let clientNames = {};        // codigo -> { nome, perfil }
+let posicoesData = [];       // [{ cliente, classe, valor, origem }]
+let xperformanceData = [];   // [{ cliente, ... }] — aguardando pontos de leitura
+let rentabilidadeData = [];  // igual ao projeto Rentabilidade: [{ cliente, mes, rentabilidade, cdi, ipca, ibov, sp500, ifix }]
+
+let pendingPosicoes = null;
+let pendingRentabilidade = null;
+let currentClient = null;
+let currentFilter = '';
+let activeCombinedFilter = null; // null (Todos) | array de: 'ad80_acima' | 'ad80_abaixo' | 'sub80_acima' | 'sub80_abaixo'
+let hideSemPatrimonio = false;   // botão "Ocultar sem patrimônio"
+let selectedPeriodYears = null;  // período do retorno mensal no card do cliente: array de "YYYY" ou null = todo o histórico
+let chartInstance = null;
+
+// ==== HELPERS ====
+function esc(s) { return String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function normalizeHeader(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toUpperCase(); }
+function fmtPct(v, digits) { if (v === null || v === undefined || isNaN(v)) return '—'; return (v).toFixed(digits === undefined ? 1 : digits) + '%'; }
+function fmtBRL(v) { if (v === null || v === undefined || isNaN(v)) return 'R$ 0,00'; return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+function fmtMes(mes) {
+    if (!mes) return '—';
+    const [y, m] = mes.split('-');
+    const nomes = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    return (nomes[parseInt(m, 10) - 1] || m) + '/' + y;
+}
+function clientLabel(code) { const n = clientNames[code]?.nome; return n ? n : code; }
+function clientPerfil(code) { return clientNames[code]?.perfil || null; }
+
+function perfilBadge(perfil) {
+    if (!perfil) return '<span class="na">—</span>';
+    const norm = perfil.toUpperCase();
+    let cls = '';
+    if (norm.startsWith('AGRESS')) cls = 'pb-agressivo';
+    else if (norm.startsWith('CONSERV')) cls = 'pb-conservador';
+    else if (norm.startsWith('MODERA')) cls = 'pb-moderado';
+    return `<span class="perfil-badge ${cls}">${esc(perfil)}</span>`;
+}
+function setStatus(id, type, msg) { const el = document.getElementById(id); if (!el) return; el.className = 'st ' + type; el.textContent = msg; }
+
+function readWorkbook(file, cb) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            if (window._xlsxFailed || typeof XLSX === 'undefined') { cb(null, 'Biblioteca de leitura de Excel não carregou. Verifique sua conexão e recarregue a página.'); return; }
+            const wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array', cellDates: true });
+            cb(wb, null);
+        } catch (err) { cb(null, 'Erro ao ler o arquivo: ' + err.message); }
+    };
+    reader.onerror = function() { cb(null, 'Erro ao ler o arquivo.'); };
+    reader.readAsArrayBuffer(file);
+}
+
+// ==== STATUS DAS BASES ====
+function renderBaseStatus() {
+    const nCadastro = Object.keys(clientNames).length;
+    setStatus('stCadastro', nCadastro ? 'ok' : 'idle', nCadastro ? `${nCadastro} clientes cadastrados` : 'Nenhum cadastro carregado');
+
+    const nClientesPos = new Set(posicoesData.map(r => r.cliente)).size;
+    setStatus('stPosicoes', posicoesData.length ? 'ok' : 'idle', posicoesData.length ? `${nClientesPos} clientes · ${posicoesData.length} posições` : 'Nenhum dado carregado');
+
+    const nClientesXp = new Set(xperformanceData.map(r => r.cliente)).size;
+    setStatus('stXperformance', xperformanceData.length ? 'ok' : 'idle', xperformanceData.length ? `${nClientesXp} clientes · ${xperformanceData.length} registros` : 'Nenhum dado carregado');
+
+    const nClientesRent = new Set(rentabilidadeData.map(r => r.cliente)).size;
+    setStatus('stRentabilidade', rentabilidadeData.length ? 'ok' : 'idle', rentabilidadeData.length ? `${nClientesRent} clientes · ${rentabilidadeData.length} registros` : 'Nenhum dado carregado');
+}
+
+// ==== CADASTRO (nome + código + perfil) ====
+function loadCadastro(file) {
+    readWorkbook(file, (wb, err) => {
+        if (err) { setStatus('stCadastro', 'err', '❌ ' + err); return; }
+        const sheet = wb.Sheets[wb.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+        const map = {};
+        let found = 0;
+        rows.forEach(row => {
+            const keys = Object.keys(row);
+            const codeKey = keys.find(k => /c[oó]d|codigo|code|client/i.test(k));
+            const nameKey = keys.find(k => /nome|name|raz[aã]o|cliente/i.test(k));
+            const perfilKey = keys.find(k => /perfil|profile/i.test(k));
+            if (codeKey && nameKey) {
+                const code = String(row[codeKey]).trim();
+                const name = String(row[nameKey]).trim();
+                let perfil = perfilKey ? String(row[perfilKey]).trim() : '';
+                // normaliza para bater com as chaves de CARTEIRAS (Conservador/Moderado/Agressivo)
+                if (perfil) {
+                    const norm = normalizeHeader(perfil);
+                    if (norm.startsWith('CONSERV')) perfil = 'Conservador';
+                    else if (norm.startsWith('MODERA')) perfil = 'Moderado';
+                    else if (norm.startsWith('AGRESS')) perfil = 'Agressivo';
+                }
+                if (code && name) { map[code] = { nome: name, perfil: perfil || null }; found++; }
+            }
+        });
+        if (!found) { setStatus('stCadastro', 'err', '❌ Colunas de código/nome não reconhecidas'); return; }
+        clientNames = map;
+        setStatus('stCadastro', 'ok', `✓ ${found} clientes carregados em memória`);
+        renderBaseStatus();
+        renderClientsList();
+        if (currentClient) selectClient(currentClient);
+    });
+}
+
+// ==== POSIÇÕES DOS CLIENTES (parser completo) ====
+function parseSheetPosicoes(wb, sheetName, classifyFn, valueCol) {
+    if (!wb.SheetNames.includes(sheetName)) return { records: [], naoMapeados: 0, encontrada: false };
+    const sheet = wb.Sheets[sheetName];
+    const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+    const records = [];
+    let naoMapeados = 0;
+    rows.forEach(row => {
+        const cliente = String(row['ClientId'] ?? '').trim();
+        if (!cliente) return;
+        const valorRaw = row[valueCol];
+        const valor = parseFloat(valorRaw);
+        if (isNaN(valor) || valor === 0) return;
+        const classe = classifyFn(row);
+        if (!classe) { naoMapeados++; return; }
+        records.push({ cliente, classe, valor, origem: sheetName });
+    });
+    return { records, naoMapeados, encontrada: true };
+}
+
+function parsePosicoesExcel(file) {
+    readWorkbook(file, (wb, err) => {
+        if (err) { setStatus('stPosicoesModal', 'err', '❌ ' + err); document.getElementById('modalPosicoesSalvar').disabled = true; return; }
+
+        const specs = [
+            { sheet: 'fundos_investimento', classify: row => MAP_FUNDOS_MARKETTYPE[row['MarketType']] || null },
+            { sheet: 'renda_fixa',          classify: row => MAP_RENDA_FIXA_STRATEGY[row['Strategy']] || null },
+            { sheet: 'previdencia',         classify: row => MAP_PREVIDENCIA_STRATEGY[row['Strategy']] || null },
+            { sheet: 'tesouro_direto',      classify: row => MAP_TESOURO_STRATEGY[row['Strategy']] || null },
+            { sheet: 'coe',                 classify: row => MAP_COE_STRATEGY[row['Strategy']] || null },
+            { sheet: 'acoes',               classify: row => MAP_ACOES_STRATEGY[row['Strategy']] || null },
+            { sheet: 'fii',                 classify: () => 'Renda Variável' }
+        ];
+
+        let allRecords = [];
+        let totalNaoMapeados = 0;
+        const abasEncontradas = [];
+        const abasNaoEncontradas = [];
+
+        specs.forEach(spec => {
+            const { records, naoMapeados, encontrada } = parseSheetPosicoes(wb, spec.sheet, spec.classify, 'ClosingValue');
+            if (encontrada) { abasEncontradas.push(spec.sheet); allRecords = allRecords.concat(records); totalNaoMapeados += naoMapeados; }
+            else abasNaoEncontradas.push(spec.sheet);
+        });
+
+        if (!abasEncontradas.length) {
+            setStatus('stPosicoesModal', 'err', '❌ Nenhuma das abas esperadas (fundos_investimento, renda_fixa, previdencia, tesouro_direto, coe, acoes, fii) foi encontrada');
+            document.getElementById('modalPosicoesSalvar').disabled = true;
+            return;
+        }
+        if (!allRecords.length) {
+            setStatus('stPosicoesModal', 'err', '❌ Nenhum registro válido encontrado nas abas lidas');
+            document.getElementById('modalPosicoesSalvar').disabled = true;
+            return;
+        }
+
+        pendingPosicoes = allRecords;
+        const nClientes = new Set(allRecords.map(r => r.cliente)).size;
+        const totalValor = allRecords.reduce((s, r) => s + r.valor, 0);
+        setStatus('stPosicoesModal', 'ok', '✓ Pronto para carregar');
+        document.getElementById('dzPosicoesModal').classList.add('ok');
+        document.getElementById('modalPosicoesSalvar').disabled = false;
+
+        document.getElementById('filePreviewPosicoes').innerHTML = `
+            <div class="file-preview-name">📄 ${esc(file.name)}</div>
+            <div class="file-preview-row"><span>Abas lidas</span><span>${abasEncontradas.length} de ${specs.length}</span></div>
+            <div class="file-preview-row"><span>Clientes</span><span>${nClientes}</span></div>
+            <div class="file-preview-row"><span>Posições</span><span>${allRecords.length}</span></div>
+            <div class="file-preview-row"><span>Valor total classificado</span><span>${fmtBRL(totalValor)}</span></div>
+            ${abasNaoEncontradas.length ? `<div class="file-preview-warn">⚠️ Aba(s) não encontrada(s) no arquivo: ${esc(abasNaoEncontradas.join(', '))}</div>` : ''}
+            ${totalNaoMapeados ? `<div class="file-preview-warn">⚠️ ${totalNaoMapeados} linha(s) com MarketType/Strategy não reconhecido, ignoradas</div>` : ''}
+        `;
+    });
+}
+
+function limparFilePreviewPosicoes() {
+    pendingPosicoes = null;
+    document.getElementById('dzPosicoesModal').classList.remove('ok');
+    document.getElementById('filePosicoesModal').value = '';
+    document.getElementById('filePreviewPosicoes').innerHTML = '<div class="file-preview-empty">Nenhum arquivo selecionado</div>';
+    setStatus('stPosicoesModal', 'idle', 'Aguardando arquivo…');
+    document.getElementById('modalPosicoesSalvar').disabled = true;
+}
+
+// ==== XPERFORMANCE (PDF de UM cliente — parser portado do "Extrato Analítico") ====
+// O relatório XPerformance é de um único cliente. O código e o nome vêm do NOME do
+// arquivo (ex.: "XPerformance - 2319500 - Tiberio Cabral.pdf"). As posições da seção
+// "Posição Detalhada dos Ativos" são lidas via pdf.js, classificadas por classe e
+// injetadas em posicoesData (origem 'XPerformance'), reaproveitando exatamente o mesmo
+// cálculo de aderência da base de Posições em massa. Caixa/Proventos → Pós-fixado.
+
+// Mapeamento de estratégias XPerformance → classes do app
+const XP_CLASSE_MAP = {
+    'Pós Fixado': 'Pós-fixado', 'Pós-Fixado': 'Pós-fixado',
+    'Pré Fixado': 'Prefixado', 'Pré-Fixado': 'Prefixado',
+    'Inflação': 'Inflação', 'Inflacao': 'Inflação',
+    'Multimercado': 'Multimercado',
+    'Renda Variável Brasil': 'Renda Variável', 'Renda Variavel Brasil': 'Renda Variável',
+    'Alternativo': 'Renda Variável', 'Fundos Listados': 'Renda Variável',
+    'Renda Variável Global': 'Renda Variável Global', 'Renda Variavel Global': 'Renda Variável Global',
+    'Renda Fixa Global': 'Renda Fixa Global',
+    // Caixa/Proventos → tratados como liquidez pós-fixada para não penalizar a aderência
+    'Caixa': 'Pós-fixado', 'Proventos': 'Pós-fixado'
+};
+const XP_GRUPOS = Object.keys(XP_CLASSE_MAP);
+
+function xpNormalizarTextoPDF(s) {
+    s = s.replace(/In\s*fl\s*ação/gi, 'Inflação');
+    s = s.replace(/Con\s*fi\s*anza/gi, 'Confiança');
+    s = s.replace(/Grá\s*fi\s*co/gi, 'Gráfico');
+    let prev;
+    do {
+        prev = s;
+        s = s.replace(/(\d)\s+([.,%])/g, '$1$2');
+        s = s.replace(/([.,%])\s+(\d)/g, '$1$2');
+        s = s.replace(/(\d)\s+(\d)/g, '$1$2');
+        s = s.replace(/R\s+\$/g, 'R$');
+    } while (s !== prev);
+    s = s.replace(/([A-Za-zÀ-ÿ0-9])\s*\/\s*(\d)/g, '$1/$2');
+    return s;
+}
+function xpMarcadorFlex(palavras) {
+    return palavras.map(p => p.split('').join('\\s*')).join('\\s+');
+}
+
+// Extrai [{classe, valor}] a partir do texto bruto do PDF
+function xpParsearAtivos(texto) {
+    const ativos = [];
+    const textoLimpo = texto.replace(/[\u00A0\u2000-\u200B\u202F\u205F\u3000]/g, ' ').replace(/\u00AD/g, '');
+    const flat = xpNormalizarTextoPDF(textoLimpo.replace(/\s+/g, ' ')).trim();
+
+    const reInicio = new RegExp(xpMarcadorFlex(['POSIÇÃO', 'DETALHADA', 'DOS', 'ATIVOS']), 'gi');
+    const posicoesInicio = [];
+    let mi;
+    while ((mi = reInicio.exec(flat)) !== null) posicoesInicio.push(mi.index + mi[0].length);
+
+    let blocosBrutos;
+    if (posicoesInicio.length === 0) {
+        const temGrupo = XP_GRUPOS.some(g => new RegExp('(?:^|\\s)' + g.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s', 'i').test(flat));
+        const temValor = /R\$\s*[\d.,]+/.test(flat);
+        if (temGrupo && temValor) blocosBrutos = [flat];
+        else return [];
+    } else {
+        const reFim = new RegExp('(' + xpMarcadorFlex(['Relatório', 'informativo']) + '|' + xpMarcadorFlex(['MOVIMENTAÇÕES']) + ')', 'i');
+        blocosBrutos = posicoesInicio.map(start => {
+            const resto = flat.slice(start);
+            const fimMatch = resto.match(reFim);
+            const end = fimMatch ? fimMatch.index : resto.length;
+            return resto.slice(0, end);
+        });
+    }
+
+    const reCabecalho = new RegExp(
+        xpMarcadorFlex(['MÊS']) + '\\s*' + xpMarcadorFlex(['ATUAL']) + '\\s*' + xpMarcadorFlex(['ANO']) + '\\s*24\\s*' + xpMarcadorFlex(['MESES']) +
+        '\\s*Estratégia\\s*Saldo\\s*Bruto\\s*Qtd\\.?\\s*%Aloc\\.?\\s*Rent\\.?\\s*%CDI\\s*Rent\\.?\\s*%CDI\\s*Rent\\.?\\s*%CDI', 'gi');
+    const rePrecif = new RegExp(xpMarcadorFlex(['PRECIFICAÇÃO']) + '[\\s\\S]*?MERCADO', 'gi');
+    const reAvisoRodape = /são datados do fechamento[\s\S]*?relatório\./gi;
+
+    let textoUtil = blocosBrutos.join(' ').replace(reCabecalho, ' ').replace(rePrecif, ' ').replace(reAvisoRodape, ' ');
+
+    const reAtivo = /([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ0-9 \-\.\/\(\),+%#_]+?)\s+R\$\s*([\d]+\.[\d]{3},[\d]{2}|[\d]+,[\d]{2})/g;
+    const ignorarNome = [/^Estratégia$/i, /^Saldo Bruto$/i, /^Qtd\.?$/i, /^%Aloc\.?$/i, /^Rent\.?$/i, /^%CDI$/i, /^Mês Atual$/i, /^Ano$/i, /^\d+$/, /^[\d.,\-%\s]+$/, /^Inflação$/i];
+    function deveIgnorar(nome) {
+        const n = nome.trim();
+        if (n.length < 3) return true;
+        if (ignorarNome.some(re => re.test(n))) return true;
+        if (XP_GRUPOS.some(g => g.toLowerCase() === n.toLowerCase())) return true;
+        return false;
+    }
+
+    let match; const matches = [];
+    while ((match = reAtivo.exec(textoUtil)) !== null) {
+        const nome = match[1].trim().replace(/\s*-\s*$/, '').replace(/^-\s*/, '').trim();
+        const valor = parseFloat(match[2].replace(/\./g, '').replace(',', '.'));
+        if (!deveIgnorar(nome) && !isNaN(valor) && valor > 0) matches.push({ nome, valor, pos: match.index });
+    }
+
+    const gruposOrdenados = [...XP_GRUPOS].sort((a, b) => b.length - a.length);
+    const gruposPos = [];
+    gruposOrdenados.forEach(g => {
+        let gm; const re = new RegExp('(?:^|\\s)' + g.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?=\\s)', 'gi');
+        while ((gm = re.exec(textoUtil)) !== null) gruposPos.push({ pos: gm.index, classe: XP_CLASSE_MAP[g] });
+    });
+    gruposPos.sort((a, b) => a.pos - b.pos);
+    function classeParaPosicao(pos) {
+        let classe = null;
+        for (const g of gruposPos) { if (g.pos < pos) classe = g.classe; else break; }
+        return classe || 'Pós-fixado';
+    }
+
+    const vistos = new Set();
+    matches.forEach(({ nome, valor, pos }) => {
+        if (XP_GRUPOS.some(g => nome.toLowerCase() === g.toLowerCase())) return;
+        const chave = nome.toLowerCase() + '|' + valor.toFixed(2);
+        if (vistos.has(chave)) return;
+        vistos.add(chave);
+        ativos.push({ nome, classe: classeParaPosicao(pos), valor });
+    });
+    return ativos;
+}
+
+// Extrai código + nome do cliente do nome do arquivo
+// Ex.: "XPerformance - 2319500 - Tiberio Cabral.pdf" -> { code:'2319500', nome:'Tiberio Cabral' }
+function xpDadosDoNomeArquivo(filename) {
+    const base = filename.replace(/\.pdf$/i, '').trim();
+    let m = base.match(/(\d{4,})\s*[-–—]\s*(.+)$/);
+    if (m) return { code: m[1].trim(), nome: m[2].trim() };
+    m = base.match(/(\d{4,})/);
+    if (m) return { code: m[1], nome: null };
+    return { code: null, nome: base || null };
+}
+
+async function loadXperformance(file) {
+    if (window._pdfjsFailed || typeof pdfjsLib === 'undefined') {
+        setStatus('stXperformance', 'err', '❌ Biblioteca de leitura de PDF não carregou. Verifique a conexão e recarregue a página.');
+        return;
+    }
+    setStatus('stXperformance', 'warn', '⏳ Lendo PDF…');
+    const { code, nome } = xpDadosDoNomeArquivo(file.name);
+    if (!code) {
+        setStatus('stXperformance', 'err', '❌ Não achei o código do cliente no nome do arquivo. Renomeie como "XPerformance - CODIGO - Nome.pdf".');
+        return;
+    }
+    try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let textoTotal = '';
+        for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const content = await page.getTextContent();
+            textoTotal += content.items.map(it => it.str).join(' ') + '\n';
+        }
+        const ativos = xpParsearAtivos(textoTotal);
+        if (!ativos.length) {
+            setStatus('stXperformance', 'err', '❌ Não encontrei ativos na seção "Posição Detalhada dos Ativos" deste PDF.');
+            return;
+        }
+
+        // Registra/atualiza o cliente no cadastro (perfil, se houver, vem do Cadastro Excel)
+        if (!clientNames[code]) clientNames[code] = { nome: nome || code, perfil: null };
+        else if (nome && !clientNames[code].nome) clientNames[code].nome = nome;
+
+        // Substitui posições desse cliente vindas de XPerformance (evita duplicar ao recarregar)
+        posicoesData = posicoesData.filter(r => !(r.cliente === code && r.origem === 'XPerformance'));
+        ativos.forEach(a => posicoesData.push({ cliente: code, classe: a.classe, valor: a.valor, origem: 'XPerformance' }));
+
+        xperformanceData = ativos.map(a => ({ cliente: code, nome: a.nome, classe: a.classe, valor: a.valor }));
+        const total = ativos.reduce((s, a) => s + a.valor, 0);
+        const perfilTxt = clientPerfil(code) ? '' : ' · ⚠ sem perfil no Cadastro';
+        setStatus('stXperformance', 'ok', `✓ ${clientLabel(code)} · ${ativos.length} ativos · ${fmtBRL(total)}${perfilTxt}`);
+
+        renderBaseStatus();
+        renderClientsList();
+        selectClient(code);
+    } catch (e) {
+        console.error(e);
+        setStatus('stXperformance', 'err', '❌ Erro ao ler o PDF: ' + (e.message || e));
+    }
+}
+
+// ==== BASE DE RENTABILIDADE (idêntico ao projeto Rentabilidade) ====
+function parseRentabilidadeExcel(file) {
+    readWorkbook(file, (wb, err) => {
+        if (err) { setStatus('stRentModal', 'err', '❌ ' + err); document.getElementById('modalRentSalvar').disabled = true; return; }
+
+        const byKey = {};
+        let ignoradosFimDeSemana = 0;
+        let abasLidas = 0;
+        const abasIgnoradas = [];
+
+        wb.SheetNames.forEach(sheetName => {
+            const sheet = wb.Sheets[sheetName];
+            const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+            if (!rows.length) { abasIgnoradas.push(sheetName); return; }
+
+            const header = rows[0];
+            const idx = {};
+            header.forEach((h, i) => {
+                const n = normalizeHeader(h);
+                if (n === 'CLIENTE') idx.cliente = i;
+                else if (n === 'DATA') idx.data = i;
+                else if (n.indexOf('RENTABILIDADE') === 0) idx.rent = i;
+                else if (n === 'CDI') idx.cdi = i;
+                else if (n === 'IPCA') idx.ipca = i;
+                else if (n === 'IBOV') idx.ibov = i;
+                else if (/S.?P.?500/.test(n)) idx.sp500 = i;
+                else if (n === 'IFIX') idx.ifix = i;
+            });
+
+            if (idx.cliente === undefined || idx.data === undefined || idx.rent === undefined) { abasIgnoradas.push(sheetName); return; }
+            abasLidas++;
+
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                const cliente = String(row[idx.cliente] ?? '').trim();
+                if (!cliente) continue;
+                let dataVal = row[idx.data];
+                let d = null;
+                if (dataVal instanceof Date) d = dataVal;
+                else if (typeof dataVal === 'number') { const p = XLSX.SSF.parse_date_code(dataVal); if (p) d = new Date(p.y, p.m - 1, p.d); }
+                else if (typeof dataVal === 'string' && dataVal.trim()) { const parsed = new Date(dataVal); if (!isNaN(parsed)) d = parsed; }
+                if (!d || isNaN(d)) continue;
+
+                const diaSemana = d.getDay();
+                if (diaSemana === 0 || diaSemana === 6) { ignoradosFimDeSemana++; continue; }
+
+                const mes = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+                const key = cliente + '|' + mes;
+                const rentRaw = parseFloat(row[idx.rent]);
+                if (isNaN(rentRaw)) continue;
+
+                if (!byKey[key] || d > byKey[key]._d) {
+                    const num = (val) => { const n = parseFloat(val); return isNaN(n) ? null : n; };
+                    byKey[key] = {
+                    _d: d, cliente, mes, data: d.toISOString().slice(0, 10), rentabilidade: rentRaw,
+                    cdi: idx.cdi !== undefined ? num(row[idx.cdi]) : null,
+                    ipca: idx.ipca !== undefined ? num(row[idx.ipca]) : null,
+                    ibov: idx.ibov !== undefined ? num(row[idx.ibov]) : null,
+                    sp500: idx.sp500 !== undefined ? num(row[idx.sp500]) : null,
+                    ifix: idx.ifix !== undefined ? num(row[idx.ifix]) : null
+                    };
+                }
+            }
+        });
+
+        if (!abasLidas) { setStatus('stRentModal', 'err', '❌ Nenhuma aba com as colunas obrigatórias (Cliente, Data, Rentabilidade) foi encontrada'); document.getElementById('modalRentSalvar').disabled = true; return; }
+        const records = Object.values(byKey).map(r => { delete r._d; return r; });
+        if (!records.length) { setStatus('stRentModal', 'err', '❌ Nenhum registro válido encontrado na planilha'); document.getElementById('modalRentSalvar').disabled = true; return; }
+
+        pendingRentabilidade = records;
+        const nClientes = new Set(records.map(r => r.cliente)).size;
+        setStatus('stRentModal', 'ok', '✓ Pronto para carregar');
+        document.getElementById('dzRentModal').classList.add('ok');
+        document.getElementById('modalRentSalvar').disabled = false;
+        document.getElementById('filePreviewRent').innerHTML = `
+            <div class="file-preview-name">📄 ${esc(file.name)}</div>
+            <div class="file-preview-row"><span>Abas lidas</span><span>${abasLidas} de ${wb.SheetNames.length}</span></div>
+            <div class="file-preview-row"><span>Clientes</span><span>${nClientes}</span></div>
+            <div class="file-preview-row"><span>Registros de mês</span><span>${records.length}</span></div>
+            ${abasIgnoradas.length ? `<div class="file-preview-warn">⚠️ Aba(s) sem colunas reconhecidas, ignorada(s): ${esc(abasIgnoradas.join(', '))}</div>` : ''}
+            ${ignoradosFimDeSemana ? `<div class="file-preview-warn">⚠️ ${ignoradosFimDeSemana} linha(s) de fim de semana ignoradas</div>` : ''}
+        `;
+    });
+}
+
+function limparFilePreviewRent() {
+    pendingRentabilidade = null;
+    document.getElementById('dzRentModal').classList.remove('ok');
+    document.getElementById('fileRentModal').value = '';
+    document.getElementById('filePreviewRent').innerHTML = '<div class="file-preview-empty">Nenhum arquivo selecionado</div>';
+    setStatus('stRentModal', 'idle', 'Aguardando arquivo…');
+    document.getElementById('modalRentSalvar').disabled = true;
+}
+
+// ==== % DO CDI (idêntico ao projeto Rentabilidade — histórico completo ou por período) ====
+// `period` (opcional): array de "YYYY" para restringir aos anos escolhidos. null/vazio = histórico completo.
+function clientCdiStats(code, period) {
+    let recs = rentabilidadeData.filter(r => r.cliente === code).sort((a, b) => a.mes.localeCompare(b.mes));
+    if (period && period.length) recs = recs.filter(r => period.includes(r.mes.slice(0, 4)));
+    if (!recs.length) return null;
+    const rentAcum = recs.reduce((acc, r) => acc * (1 + r.rentabilidade), 1) - 1;
+    const cdiRecs = recs.filter(r => r.cdi !== null && r.cdi !== undefined && !isNaN(r.cdi));
+    let cdiAcum = null, pctCdi = null;
+    if (cdiRecs.length) {
+        cdiAcum = cdiRecs.reduce((acc, r) => acc * (1 + r.cdi), 1) - 1;
+        if (cdiAcum !== 0) pctCdi = (rentAcum / cdiAcum) * 100;
+    }
+    return { nMeses: recs.length, primeiroMes: recs[0].mes, ultimoMes: recs[recs.length - 1].mes, rentAcum, cdiAcum, pctCdi };
+}
+
+// ==== ADERÊNCIA À CARTEIRA RECOMENDADA ====
+// Soma dos mínimos por classe: para cada classe, pega o menor valor entre "% que o
+// cliente tem" e "% que a carteira recomendada indica pro perfil dele", e soma. Dá
+// um número de 0 a 100% que mede o quanto a carteira do cliente se sobrepõe à
+// recomendação (mesma fórmula confirmada com o usuário).
+function classifyPosicoesForClient(code) {
+    const recs = posicoesData.filter(r => r.cliente === code);
+    const byClass = {};
+    let total = 0;
+    recs.forEach(r => { byClass[r.classe] = (byClass[r.classe] || 0) + r.valor; total += r.valor; });
+    return { byClass, total };
+}
+
+function calcAderencia(code) {
+    const perfil = clientPerfil(code);
+    if (!perfil || !CARTEIRAS[perfil]) return null;
+    const alvo = CARTEIRAS[perfil].classes;
+    const { byClass, total } = classifyPosicoesForClient(code);
+    if (total <= 0) return null;
+    let aderenciaPct = 0;
+    const todasClasses = new Set([...Object.keys(alvo), ...Object.keys(byClass)]);
+    todasClasses.forEach(c => {
+        const atualPct = ((byClass[c] || 0) / total) * 100;
+        const alvoPct = alvo[c] || 0;
+        aderenciaPct += Math.min(atualPct, alvoPct);
+    });
+    return { aderenciaPct, byClass, total, alvo, perfil };
+}
+
+// ==== FILTRO COMBINADO (ADERÊNCIA × CDI) — multi-seleção (OR) ====
+function matchesCombinedKey(key, adOk, acimaCdi, abaixoCdi) {
+    switch (key) {
+        case 'ad80_acima': return adOk && acimaCdi;
+        case 'ad80_abaixo': return adOk && abaixoCdi;
+        case 'sub80_acima': return !adOk && acimaCdi;
+        case 'sub80_abaixo': return !adOk && abaixoCdi;
+        default: return false;
+    }
+}
+function passesCombinedFilter(code) {
+    if (!activeCombinedFilter || !activeCombinedFilter.length) return true;
+    const ad = calcAderencia(code);
+    const cdi = clientCdiStats(code, selectedPeriodYears);
+    if (!ad || !cdi || cdi.pctCdi === null || isNaN(cdi.pctCdi)) return false;
+    const adOk = ad.aderenciaPct >= 80;
+    const acimaCdi = cdi.pctCdi >= 100; // "acima do CDI" a partir de 100% (inclusive)
+    const abaixoCdi = cdi.pctCdi < 100;
+    // OR: basta bater em uma das opções selecionadas
+    return activeCombinedFilter.some(k => matchesCombinedKey(k, adOk, acimaCdi, abaixoCdi));
+}
+// Cliente "sem patrimônio": sem posições classificadas com valor > 0
+function clientTemPatrimonio(code) {
+    const { total } = classifyPosicoesForClient(code);
+    return total > 0;
+}
+
+// ==== LISTA DE CLIENTES ====
+function getClientCodes() {
+    const set = new Set(Object.keys(clientNames));
+    posicoesData.forEach(r => set.add(r.cliente));
+    rentabilidadeData.forEach(r => set.add(r.cliente));
+    return Array.from(set);
+}
+
+function renderClientsList() {
+    renderPeriodDropdown();
+    const grid = document.getElementById('clientsGrid');
+    const footer = document.getElementById('clientsFooter');
+    const stats = document.getElementById('clientsStats');
+    const all = getClientCodes();
+
+    let filtered = all.filter(code => {
+        if (currentFilter) {
+            const nome = (clientNames[code]?.nome || '').toLowerCase();
+            const bate = code.toLowerCase().includes(currentFilter.toLowerCase()) || nome.includes(currentFilter.toLowerCase());
+            if (!bate) return false;
+        }
+        if (hideSemPatrimonio && !clientTemPatrimonio(code)) return false;
+        return passesCombinedFilter(code);
+    });
+
+    filtered.sort((a, b) => clientLabel(a).localeCompare(clientLabel(b), 'pt-BR'));
+
+    if (!all.length) {
+        grid.innerHTML = ''; footer.textContent = ''; stats.textContent = '';
+        document.querySelector('.clients-table-wrap').style.display = 'none';
+        return;
+    }
+    document.querySelector('.clients-table-wrap').style.display = 'block';
+
+    const chevron = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>`;
+    grid.innerHTML = filtered.map((code, idx) => {
+        const isActive = code === currentClient;
+        const nome = clientNames[code]?.nome;
+        const perfil = clientPerfil(code);
+        const ad = calcAderencia(code);
+        const cdi = clientCdiStats(code, selectedPeriodYears);
+        const adCell = ad ? `<span class="cr-c ${ad.aderenciaPct >= 80 ? 'pos' : 'neg'}">${fmtPct(ad.aderenciaPct)}</span>` : `<span class="cr-c na">—</span>`;
+        const cdiCell = (cdi && cdi.pctCdi !== null) ? `<span class="cr-c ${cdi.pctCdi >= 100 ? 'pos' : 'neg'}">${fmtPct(cdi.pctCdi, 1)}</span>` : `<span class="cr-c na">—</span>`;
+        const patrimCell = ad ? fmtBRL(ad.total) : '—';
+        return `<div class="client-row${isActive ? ' active' : ''}" data-id="${esc(code)}" onclick="selectClient('${esc(code)}')">
+            <div class="cr-id"><span class="cr-index">${String(idx + 1).padStart(2, '0')}</span><div class="cr-id-text">${nome ? esc(nome) : esc(code)}${nome ? `<span class="code">${esc(code)}</span>` : ''}</div></div>
+            <div class="cr-c">${perfilBadge(perfil)}</div>
+            ${adCell}
+            ${cdiCell}
+            <div class="cr-c" style="font-size:var(--fs-xs);">${patrimCell}</div>
+            <div class="cr-arrow">${chevron}</div>
+        </div>`;
+    }).join('');
+
+    stats.textContent = `${filtered.length} de ${all.length} clientes`;
+    footer.textContent = `${filtered.length} cliente${filtered.length !== 1 ? 's' : ''} exibido${filtered.length !== 1 ? 's' : ''}`;
+
+    // quantos clientes estão sem patrimônio (base do botão "Ocultar sem patrimônio")
+    const semPatrimonioCount = all.filter(code => !clientTemPatrimonio(code)).length;
+    updateSemPatrimonioBtn(semPatrimonioCount);
+}
+
+// Atualiza o rótulo do botão mostrando o nº de clientes sem patrimônio (ocultados)
+function updateSemPatrimonioBtn(count) {
+    const btn = document.getElementById('btnToggleSemPatrimonio');
+    if (!btn) return;
+    if (hideSemPatrimonio) {
+        btn.innerHTML = `<span class="material-symbols-outlined">filter_alt_off</span>Mostrar todos (${count} ocultado${count !== 1 ? 's' : ''})`;
+    } else {
+        btn.innerHTML = `<span class="material-symbols-outlined">filter_alt</span>Ocultar sem patrimônio${count ? ` (${count})` : ''}`;
+    }
+}
+
+// ==== DROPDOWN "PERÍODO DO RETORNO MENSAL" (igual ao script de rentabilidade) ====
+// Multi-seleção de anos: 0 anos = "Todo o histórico"; 1+ anos filtra o % do CDI da
+// lista e do card, e o gráfico do cliente. selectedPeriodYears = array "YYYY" ou null.
+function renderPeriodDropdown() {
+    const box = document.getElementById('cdiPeriodYearOptions');
+    if (!box) return;
+    const years = [...new Set(rentabilidadeData.map(r => r.mes.slice(0, 4)))].sort();
+
+    if (Array.isArray(selectedPeriodYears)) {
+        selectedPeriodYears = selectedPeriodYears.filter(y => years.includes(y));
+        if (!selectedPeriodYears.length) selectedPeriodYears = null;
+    }
+
+    box.innerHTML = years.map(y => {
+        const checked = Array.isArray(selectedPeriodYears) && selectedPeriodYears.includes(y);
+        return `<label class="ms-option"><input type="checkbox" data-year="${y}"${checked ? ' checked' : ''}> ${y}</label>`;
+    }).join('');
+
+    box.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', () => {
+            const y = cb.dataset.year;
+            let arr = Array.isArray(selectedPeriodYears) ? [...selectedPeriodYears] : [];
+            if (cb.checked) { if (!arr.includes(y)) arr.push(y); }
+            else { arr = arr.filter(v => v !== y); }
+            selectedPeriodYears = arr.length ? arr : null;
+            renderClientsList();
+            if (currentClient) selectClient(currentClient, true);
+        });
+    });
+
+    updatePeriodLabel();
+}
+function updatePeriodLabel() {
+    const label = document.getElementById('cdiPeriodBtnLabel');
+    if (!label) return;
+    if (!selectedPeriodYears || !selectedPeriodYears.length) label.textContent = 'Todo o histórico';
+    else if (selectedPeriodYears.length === 1) label.textContent = selectedPeriodYears[0];
+    else if (selectedPeriodYears.length <= 3) label.textContent = [...selectedPeriodYears].sort().join(', ');
+    else label.textContent = `${selectedPeriodYears.length} anos selecionados`;
+}
+document.getElementById('cdiPeriodBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('cdiPeriodPanel').classList.toggle('hidden');
+});
+document.getElementById('cdiPeriodAllBtn').addEventListener('click', () => {
+    selectedPeriodYears = null;
+    renderClientsList();
+    if (currentClient) selectClient(currentClient, true);
+});
+document.addEventListener('click', (e) => {
+    const dd = document.getElementById('cdiPeriodDropdown');
+    const panel = document.getElementById('cdiPeriodPanel');
+    if (dd && panel && !dd.contains(e.target)) panel.classList.add('hidden');
+});
+
+document.getElementById('clientSearch').addEventListener('input', e => { currentFilter = e.target.value.trim(); renderClientsList(); });
+document.getElementById('btnLimparBusca').addEventListener('click', () => {
+    currentFilter = ''; currentClient = null;
+    document.getElementById('clientSearch').value = '';
+    renderClientsList();
+    document.getElementById('resultSection').innerHTML = '';
+});
+
+document.getElementById('combinedFilterControls').querySelectorAll('.bm-seg-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const key = item.dataset.f || '';
+        if (!key) {
+            activeCombinedFilter = null; // "Todos"
+        } else {
+            let arr = Array.isArray(activeCombinedFilter) ? [...activeCombinedFilter] : [];
+            if (arr.includes(key)) arr = arr.filter(v => v !== key);
+            else arr.push(key);
+            activeCombinedFilter = arr.length ? arr : null;
+        }
+        // sincroniza classe .active (Todos ativo só quando nada selecionado)
+        document.querySelectorAll('#combinedFilterControls .bm-seg-item').forEach(i => {
+            const k = i.dataset.f || '';
+            const on = k ? (Array.isArray(activeCombinedFilter) && activeCombinedFilter.includes(k))
+                         : !activeCombinedFilter;
+            i.classList.toggle('active', on);
+        });
+        renderClientsList();
+    });
+});
+
+document.getElementById('btnToggleSemPatrimonio').addEventListener('click', () => {
+    hideSemPatrimonio = !hideSemPatrimonio;
+    document.getElementById('btnToggleSemPatrimonio').classList.toggle('active', hideSemPatrimonio);
+    renderClientsList(); // renderClientsList chama updateSemPatrimonioBtn com a contagem certa
+});
+
+// ====================== TOGGLE "FILTROS AVANÇADOS" ======================
+// Mostra/esconde o card com Ocultar sem patrimônio, Aderência × CDI e Período do retorno mensal.
+// Estado lembrado entre sessões (mesmo padrão do botão de tema).
+(function () {
+    const toggle = document.getElementById('advFiltersToggle');
+    const card = document.getElementById('advancedFiltersCard');
+    let savedOpen = null;
+    try { savedOpen = localStorage.getItem('aderenciaAdvFiltersOpen'); } catch (e) { savedOpen = null; }
+    if (savedOpen === '1') {
+        toggle.checked = true;
+        card.classList.remove('collapsed');
+    }
+    toggle.addEventListener('change', () => {
+        card.classList.toggle('collapsed', !toggle.checked);
+        try { localStorage.setItem('aderenciaAdvFiltersOpen', toggle.checked ? '1' : '0'); } catch (e) {}
+    });
+})();
+
+// ==== PAINEL DE DETALHE DO CLIENTE ====
+function cumulativeIndex(records, field) {
+    let acc = 100;
+    return records.map(r => { const v = r[field]; if (v === null || v === undefined || isNaN(v)) return acc; acc = acc * (1 + v); return acc; });
+}
+
+function selectClient(code, skipScroll) {
+    currentClient = code;
+    renderClientsList();
+    const section = document.getElementById('resultSection');
+    const ad = calcAderencia(code);
+    const cdi = clientCdiStats(code, selectedPeriodYears);
+    const perfil = clientPerfil(code);
+
+    if (!ad && !cdi) {
+        section.innerHTML = `<div class="result-panel"><div class="empty"><div class="empty-icon">📭</div><div class="empty-text">Ainda não há dados suficientes (posições e/ou rentabilidade) pra este cliente.</div></div></div>`;
+        return;
+    }
+
+    const adKpi = ad
+        ? `<div class="kpi-card"><div class="kpi-label">Aderência à carteira recomendada</div><div class="kpi-val ${ad.aderenciaPct >= 80 ? 'pos' : 'neg'}">${fmtPct(ad.aderenciaPct)}</div><div class="kpi-sub">${perfil ? perfilBadge(perfil) : '—'}</div></div>`
+        : `<div class="kpi-card"><div class="kpi-label">Aderência à carteira recomendada</div><div class="kpi-val">—</div><div class="kpi-sub">${!perfil ? 'Sem perfil cadastrado' : 'Sem posições carregadas'}</div></div>`;
+
+    const periodoTxt = (selectedPeriodYears && selectedPeriodYears.length)
+        ? (selectedPeriodYears.length === 1 ? selectedPeriodYears[0] : selectedPeriodYears.slice().sort().join(', '))
+        : 'histórico completo';
+    const cdiKpi = (cdi && cdi.pctCdi !== null)
+        ? `<div class="kpi-card"><div class="kpi-label">% do CDI (${esc(periodoTxt)})</div><div class="kpi-val ${cdi.pctCdi >= 100 ? 'pos' : 'neg'}">${fmtPct(cdi.pctCdi, 2)}</div><div class="kpi-sub">${cdi.nMeses} ${cdi.nMeses === 1 ? 'mês registrado' : 'meses registrados'}</div></div>`
+        : `<div class="kpi-card"><div class="kpi-label">% do CDI (${esc(periodoTxt)})</div><div class="kpi-val">—</div><div class="kpi-sub">${rentabilidadeData.some(r => r.cliente === code) ? 'Sem dados no período selecionado' : 'Sem rentabilidade carregada'}</div></div>`;
+
+    const patrimKpi = `<div class="kpi-card"><div class="kpi-label">Patrimônio classificado</div><div class="kpi-val">${ad ? fmtBRL(ad.total) : '—'}</div><div class="kpi-sub">${ad ? Object.keys(ad.byClass).length + ' classes com posição' : 'Sem posições carregadas'}</div></div>`;
+
+    let classesHtml = '';
+    if (ad) {
+        const threshold = ad.total * 0.005;
+        const recRows = CLASSES_ORDER.map(cls => {
+            const atualVal = ad.byClass[cls] || 0;
+            const alvoPct = ad.alvo[cls] || 0;
+            const alvoVal = ad.total * (alvoPct / 100);
+            const diff = alvoVal - atualVal;
+            const atualPctDisp = (atualVal / ad.total) * 100;
+            const diffPp = Math.abs(atualPctDisp - alvoPct);
+            let tipo, label;
+            if (Math.abs(diff) <= threshold) { tipo = 'manter'; label = '✓ Manter'; }
+            else if (diff > 0) { tipo = 'alocar'; label = `↑ Alocar ${fmtPct(diffPp)}`; }
+            else { tipo = 'retirar'; label = `↓ Retirar ${fmtPct(diffPp)}`; }
+            const valorTxt = Math.abs(diff) <= threshold ? '—' : `${diff > 0 ? '+' : '−'}${fmtBRL(Math.abs(diff))}`;
+            return `<div class="rec-row">
+                <div class="rec-dot ${tipo}"></div>
+                <span class="rec-nome">${esc(cls)}</span>
+                <span class="rec-badge ${tipo}">${label}</span>
+                <span class="rec-valor ${tipo}">${valorTxt}</span>
+            </div>`;
+        }).join('');
+
+        classesHtml = `<div class="classes-wrap">
+            <div class="classes-header">
+                <button class="classes-nav-btn" id="classesPrevBtn" type="button" aria-label="Página anterior"><span class="material-symbols-outlined">chevron_left</span></button>
+                <div class="classes-title" id="classesTitleLabel">Carteira atual vs. recomendada</div>
+                <button class="classes-nav-btn" id="classesNextBtn" type="button" aria-label="Próxima página"><span class="material-symbols-outlined">chevron_right</span></button>
+            </div>
+            <div class="classes-carousel">
+                <div class="classes-track" id="classesTrack">
+                    <div class="classes-page">
+                        ${CLASSES_ORDER.map(cls => {
+                            const atualPct = ((ad.byClass[cls] || 0) / ad.total) * 100;
+                            const alvoPct = ad.alvo[cls] || 0;
+                            return `<div class="classe-item">
+                                <div class="dot-class" style="background:${CLASS_COLORS[cls]}"></div>
+                                <span class="classe-nome-label">${esc(cls)}</span>
+                                <div class="dual-bar"><div class="bar-atual" style="width:${Math.min(atualPct, 100)}%;background:${CLASS_COLORS[cls]}"></div><div class="bar-alvo" style="left:${Math.min(alvoPct, 100)}%"></div></div>
+                                <div class="classe-pcts"><span class="pct-atual">${fmtPct(atualPct)}</span><span class="pct-alvo">alvo: ${fmtPct(alvoPct)}</span></div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                    <div class="classes-page">${recRows}</div>
+                </div>
+            </div>
+            <div class="classes-dots" id="classesDots">
+                <button class="classes-dot active" type="button" data-page="0" aria-label="Página 1"></button>
+                <button class="classes-dot" type="button" data-page="1" aria-label="Página 2"></button>
+            </div>
+        </div>`;
+    }
+
+    let chartHtml = '';
+    const recsAll = rentabilidadeData.filter(r => r.cliente === code).sort((a, b) => a.mes.localeCompare(b.mes));
+    const anosDisponiveis = Array.from(new Set(recsAll.map(r => r.mes.slice(0, 4)))).sort();
+    // aplica o período selecionado ao gráfico
+    const recsRent = (selectedPeriodYears && selectedPeriodYears.length)
+        ? recsAll.filter(r => selectedPeriodYears.includes(r.mes.slice(0, 4)))
+        : recsAll;
+    if (recsAll.length) {
+        const periodPills = `<div class="clients-toolbar" style="margin-bottom:var(--sp-3);">
+            <span class="period-filter-label">Período do retorno mensal</span>
+            <div class="bm-segment" id="periodControls">
+                <div class="bm-seg-item ${!(selectedPeriodYears && selectedPeriodYears.length) ? 'active' : ''}" data-y="">Todo o histórico</div>
+                ${anosDisponiveis.map(y => `<div class="bm-seg-item ${(selectedPeriodYears && selectedPeriodYears.includes(y)) ? 'active' : ''}" data-y="${y}">${y}</div>`).join('')}
+            </div>
+        </div>`;
+        const chartInner = recsRent.length
+            ? `<div class="chart-canvas-box"><canvas id="rentChart"></canvas></div>`
+            : `<div class="empty-text" style="padding:1.5rem 0;text-align:center;">Sem registros de rentabilidade no período selecionado.</div>`;
+        chartHtml = `<div class="chart-wrap">${periodPills}${chartInner}</div>`;
+    }
+
+    section.innerHTML = `
+    <div class="result-panel">
+        <div id="shareCaptureArea">
+            <div class="rp-header">
+                <div><div class="rp-title">${esc(clientLabel(code))}</div><div class="rp-client">${esc(code)}</div></div>
+                <div class="rp-share-btns">
+                    <button class="rp-share-btn" id="btnCopyCard" type="button" title="Copiar imagem"><span class="material-symbols-outlined">content_copy</span></button>
+                    <button class="rp-share-btn" id="btnSavePng" type="button" title="Salvar como PNG"><span class="material-symbols-outlined">download</span></button>
+                </div>
+            </div>
+            <div class="kpi-row">${adKpi}${cdiKpi}${patrimKpi}</div>
+            ${classesHtml}
+        </div>
+        ${chartHtml}
+    </div>`;
+
+    if (recsRent.length) renderChart(recsRent);
+
+    // botões de copiar/salvar imagem do card
+    const btnCopyCard = document.getElementById('btnCopyCard');
+    const btnSavePng = document.getElementById('btnSavePng');
+    if (btnCopyCard) btnCopyCard.addEventListener('click', () => captureCard('copy', code));
+    if (btnSavePng) btnSavePng.addEventListener('click', () => captureCard('download', code));
+
+    // carrossel "Carteira atual vs. recomendada" / "Ajustes recomendados"
+    setupClassesCarousel();
+
+    // liga os botões de período (multi-seleção de anos; "Todo o histórico" limpa)
+    const periodBox = document.getElementById('periodControls');
+    if (periodBox) {
+        periodBox.querySelectorAll('.bm-seg-item').forEach(item => item.addEventListener('click', () => {
+            const y = item.dataset.y || '';
+            if (!y) {
+                selectedPeriodYears = null; // Todo o histórico
+            } else {
+                let arr = Array.isArray(selectedPeriodYears) ? [...selectedPeriodYears] : [];
+                if (arr.includes(y)) arr = arr.filter(v => v !== y);
+                else arr.push(y);
+                selectedPeriodYears = arr.length ? arr : null;
+            }
+            renderCurrentCard(); // re-renderiza o card mantendo o cliente e sem rolar
+        }));
+    }
+
+    // rola suavemente até o card de detalhe do cliente
+    setTimeout(() => {
+        const sec = document.getElementById('resultSection');
+        if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+}
+
+function setupClassesCarousel() {
+    const track = document.getElementById('classesTrack');
+    if (!track) return;
+    const prevBtn = document.getElementById('classesPrevBtn');
+    const nextBtn = document.getElementById('classesNextBtn');
+    const titleLabel = document.getElementById('classesTitleLabel');
+    const dots = Array.from(document.querySelectorAll('#classesDots .classes-dot'));
+    const titles = ['Carteira atual vs. recomendada', 'Ajustes recomendados por classe'];
+    let page = 0;
+    function render() {
+        track.style.transform = `translateX(-${page * 100}%)`;
+        titleLabel.textContent = titles[page];
+        dots.forEach((d, i) => d.classList.toggle('active', i === page));
+        if (prevBtn) prevBtn.disabled = page === 0;
+        if (nextBtn) nextBtn.disabled = page === dots.length - 1;
+    }
+    if (prevBtn) prevBtn.addEventListener('click', () => { if (page > 0) { page--; render(); } });
+    if (nextBtn) nextBtn.addEventListener('click', () => { if (page < dots.length - 1) { page++; render(); } });
+    dots.forEach((d, i) => d.addEventListener('click', () => { page = i; render(); }));
+    render();
+}
+
+async function captureCard(action, code) {
+    const area = document.getElementById('shareCaptureArea');
+    const btnId = action === 'copy' ? 'btnCopyCard' : 'btnSavePng';
+    if (!area || window._html2canvasFailed || typeof html2canvas === 'undefined') {
+        alert('Não foi possível gerar a imagem (biblioteca não carregada). Verifique sua conexão e tente novamente.');
+        return;
+    }
+    const bgColor = getComputedStyle(document.body).getPropertyValue('--bg-card').trim() || '#0e1120';
+    area.classList.add('capturing');
+    area.style.background = bgColor;
+    area.style.borderRadius = 'var(--r-xl)';
+    try {
+        const canvas = await html2canvas(area, { backgroundColor: bgColor, scale: 2, useCORS: true, logging: false });
+        if (action === 'copy') {
+            canvas.toBlob(async (blob) => {
+                try {
+                    if (!navigator.clipboard || !window.ClipboardItem) throw new Error('clipboard indisponível');
+                    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                    showBtnSuccess(btnId);
+                } catch (e) {
+                    // fallback: se não der pra copiar (ex: navegador sem suporte), baixa o arquivo
+                    downloadCanvas(canvas, code);
+                    showBtnSuccess(btnId);
+                }
+            });
+        } else {
+            downloadCanvas(canvas, code);
+            showBtnSuccess(btnId);
+        }
+    } catch (e) {
+        console.error(e);
+        alert('Não foi possível gerar a imagem. Tente novamente.');
+    } finally {
+        area.classList.remove('capturing');
+        area.style.background = '';
+        area.style.borderRadius = '';
+    }
+}
+
+function downloadCanvas(canvas, code) {
+    const link = document.createElement('a');
+    link.download = `aderencia_${(code || 'cliente').replace(/[^\w-]/g, '_')}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+}
+
+function showBtnSuccess(btnId) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    const icon = btn.querySelector('.material-symbols-outlined');
+    const original = icon.textContent;
+    btn.classList.add('success');
+    icon.textContent = 'check';
+    setTimeout(() => {
+        btn.classList.remove('success');
+        icon.textContent = original;
+    }, 2200);
+}
+
+function accumUpTo(recs, idx, field, sameYearOnly) {
+    const year = recs[idx].mes.slice(0, 4);
+    let acc = 1, has = false;
+    for (let i = 0; i <= idx; i++) {
+        if (sameYearOnly && recs[i].mes.slice(0, 4) !== year) continue;
+        const v = recs[i][field];
+        if (v === null || v === undefined || isNaN(v)) continue;
+        acc *= (1 + v);
+        has = true;
+    }
+    return has ? acc - 1 : null;
+}
+
+function externalTooltipHandler(context) {
+    const { chart, tooltip } = context;
+    const box = chart.canvas.parentElement;
+    let el = box.querySelector('.chart-tooltip');
+    if (!el) {
+        el = document.createElement('div');
+        el.className = 'chart-tooltip';
+        box.appendChild(el);
+    }
+    if (tooltip.opacity === 0) {
+        el.style.opacity = 0;
+        return;
+    }
+    if (tooltip.body) {
+        const monthLabel = tooltip.title[0] || '';
+        const rowsHtml = tooltip.dataPoints.map(dp => {
+            const ds = chart.data.datasets[dp.datasetIndex];
+            const raw = ds.rawData ? ds.rawData[dp.dataIndex] : null;
+            const valueLabel = (raw === null || raw === undefined || isNaN(raw))
+                ? '—'
+                : `${raw > 0 ? '+' : ''}${(raw * 100).toFixed(2)}%`;
+            return `<div class="ct-row" style="color:${ds.borderColor};font-weight:${ds.label === 'Rentabilidade' ? 600 : 400};"><span>${esc(ds.label)}</span><span>${valueLabel}</span></div>`;
+        }).join('');
+
+        let extraHtml = '';
+        const recs = chart.canvas._tooltipRecs;
+        if (recs && recs.length && tooltip.dataPoints.length) {
+            const idx = tooltip.dataPoints[0].dataIndex;
+            const rentAno = accumUpTo(recs, idx, 'rentabilidade', true);
+            const rentAcum = accumUpTo(recs, idx, 'rentabilidade', false);
+            const cdiAcum = accumUpTo(recs, idx, 'cdi', false);
+            const fmtV = (v) => v === null ? '—' : `${v > 0 ? '+' : ''}${(v * 100).toFixed(2)}%`;
+            const colorFor = (v) => v === null ? 'var(--tx3)' : (v >= 0 ? 'var(--pos)' : 'var(--neg)');
+            extraHtml = `<div class="ct-divider"></div>
+                <div class="ct-row ct-extra"><span>Rent. no ano</span><span style="color:${colorFor(rentAno)};font-weight:600;">${fmtV(rentAno)}</span></div>
+                <div class="ct-row ct-extra"><span>Rent. acumulada</span><span style="color:${colorFor(rentAcum)};font-weight:600;">${fmtV(rentAcum)}</span></div>
+                <div class="ct-row ct-extra"><span>CDI acumulado</span><span style="color:${colorFor(cdiAcum)};font-weight:600;">${fmtV(cdiAcum)}</span></div>`;
+        }
+
+        el.innerHTML = `<div class="ct-month">${esc(monthLabel)}</div>${rowsHtml}${extraHtml}`;
+    }
+    const { offsetLeft: boxLeft, offsetTop: boxTop, offsetWidth: boxWidth, offsetHeight: boxHeight } = chart.canvas;
+    let left = boxLeft + tooltip.caretX + 14;
+    const elWidth = el.offsetWidth || 190;
+    if (left + elWidth > boxWidth) left = boxLeft + tooltip.caretX - elWidth - 14;
+    if (left < 0) left = 4;
+
+    let top = boxTop + tooltip.caretY - 10;
+    const elHeight = el.offsetHeight || 150;
+    if (top + elHeight > boxTop + boxHeight) top = boxTop + boxHeight - elHeight - 8;
+    if (top < boxTop) top = boxTop + 8;
+
+    el.style.opacity = 1;
+    el.style.left = left + 'px';
+    el.style.top = top + 'px';
+}
+
+function renderChart(recs) {
+    const canvas = document.getElementById('rentChart');
+    if (!canvas) return;
+    canvas._tooltipRecs = recs;
+    if (window._chartFailed || typeof Chart === 'undefined') {
+        canvas.parentElement.innerHTML = '<div class="empty-text" style="padding:2rem 0;text-align:center;">Não foi possível carregar a biblioteca de gráficos.</div>';
+        return;
+    }
+    const labels = recs.map(r => fmtMes(r.mes));
+    const isLight = document.body.classList.contains('light');
+    const gridColor = isLight ? 'rgba(0,0,0,.06)' : 'rgba(255,255,255,.06)';
+    const tickColor = isLight ? '#4A5068' : '#8E9AAF';
+    const datasets = [
+        { label: 'Rentabilidade', data: cumulativeIndex(recs, 'rentabilidade'), rawData: recs.map(r => r.rentabilidade), borderColor: '#C5A059', backgroundColor: 'rgba(197,160,89,.12)', borderWidth: 2.5, pointRadius: 2, tension: .25, fill: false },
+        { label: 'CDI', data: cumulativeIndex(recs, 'cdi'), rawData: recs.map(r => r.cdi), borderColor: '#5DADE2', backgroundColor: 'rgba(93,173,226,.1)', borderWidth: 1.75, pointRadius: 1.5, tension: .25, fill: false }
+    ];
+    if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+    chartInstance = new Chart(canvas.getContext('2d'), {
+        type: 'line', data: { labels, datasets },
+        options: {
+            responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { labels: { color: tickColor, font: { family: 'DM Sans', size: 11 }, usePointStyle: true, pointStyle: 'circle', boxWidth: 8, boxHeight: 8, padding: 16 } },
+                tooltip: { enabled: false, external: externalTooltipHandler }
+            },
+            scales: {
+                x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { family: 'DM Mono', size: 10 } } },
+                y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { family: 'DM Mono', size: 10 } }, title: { display: true, text: 'Índice (base 100)', color: tickColor, font: { family: 'DM Sans', size: 10 } } }
+            }
+        }
+    });
+}
+
+// ==== EXPORTAÇÃO EXCEL ====
+document.getElementById('btnExportarExcel').addEventListener('click', () => {
+    if (window._xlsxFailed || typeof XLSX === 'undefined') { alert('Não foi possível carregar a biblioteca de exportação.'); return; }
+    const codes = getClientCodes();
+    if (!codes.length) { alert('Não há clientes carregados para exportar.'); return; }
+
+    const COLS = [{ wch: 12 }, { wch: 28 }, { wch: 14 }, { wch: 14 }, { wch: 22 }, { wch: 12 }, { wch: 16 }];
+
+    // monta a linha e já classifica o cliente nos 4 grupos aderência × CDI
+    const built = codes.map(code => {
+        const ad = calcAderencia(code);
+        const cdi = clientCdiStats(code);
+        const row = {
+            'Código': code,
+            'Nome': clientLabel(code) !== code ? clientLabel(code) : '',
+            'Perfil': clientPerfil(code) || '',
+            'Aderência (%)': ad ? +ad.aderenciaPct.toFixed(2) : null,
+            'Patrimônio Classificado (R$)': ad ? +ad.total.toFixed(2) : null,
+            '% do CDI': (cdi && cdi.pctCdi !== null) ? +cdi.pctCdi.toFixed(2) : null,
+            'Meses Registrados': cdi ? cdi.nMeses : null
+        };
+        let group = null;
+        if (ad && cdi && cdi.pctCdi !== null && !isNaN(cdi.pctCdi)) {
+            const adOk = ad.aderenciaPct >= 80;
+            const acimaCdi = cdi.pctCdi >= 100;
+            group = adOk && acimaCdi ? 'ad80_acima' : adOk && !acimaCdi ? 'ad80_abaixo' : !adOk && acimaCdi ? 'sub80_acima' : 'sub80_abaixo';
+        }
+        return { row, group };
+    });
+
+    const wb = XLSX.utils.book_new();
+
+    const addSheet = (name, items) => {
+        const ws = XLSX.utils.json_to_sheet(items.length ? items : [{ 'Código': '', 'Nome': '', 'Perfil': '', 'Aderência (%)': '', 'Patrimônio Classificado (R$)': '', '% do CDI': '', 'Meses Registrados': '' }]);
+        ws['!cols'] = COLS;
+        XLSX.utils.book_append_sheet(wb, ws, name);
+    };
+
+    addSheet('Aderência', built.map(b => b.row));
+    addSheet('Ad≥80% Acima CDI', built.filter(b => b.group === 'ad80_acima').map(b => b.row));
+    addSheet('Ad≥80% Abaixo CDI', built.filter(b => b.group === 'ad80_abaixo').map(b => b.row));
+    addSheet('Ad<80% Acima CDI', built.filter(b => b.group === 'sub80_acima').map(b => b.row));
+    addSheet('Ad<80% Abaixo CDI', built.filter(b => b.group === 'sub80_abaixo').map(b => b.row));
+
+    const stamp = new Date().toISOString().slice(0, 10);
+    XLSX.writeFile(wb, `aderencia_clientes_${stamp}.xlsx`);
+});
+
+// ==== MODAL SENHA (Posições) — senha fixa: carteiras2025 ====
+const SENHA_CORRETA = 'carteiras2025';
+const MASK_CHAR = '•';
+let senhaModalReal = '';
+
+function senhaModalRenderizar(mostrar) {
+    const inp = document.getElementById('modalSenhaInput');
+    const selStart = inp.selectionStart;
+    inp.value = mostrar ? senhaModalReal : MASK_CHAR.repeat(senhaModalReal.length);
+    inp.setSelectionRange(selStart, selStart);
+}
+document.getElementById('modalSenhaInput').addEventListener('input', function (e) {
+    const val = this.value; const selStart = this.selectionStart;
+    const prevLen = senhaModalReal.length; const newLen = val.length;
+    const mostrandoTexto = document.getElementById('eyeIcon').textContent === 'visibility_off';
+    if (mostrandoTexto) { senhaModalReal = val; }
+    else if (newLen > prevLen) {
+        const insertedCount = newLen - prevLen; const insertPos = selStart - insertedCount;
+        const inserted = val.slice(insertPos, insertPos + insertedCount);
+        senhaModalReal = senhaModalReal.slice(0, insertPos) + inserted + senhaModalReal.slice(insertPos);
+    } else if (newLen < prevLen) {
+        const deletedCount = prevLen - newLen; const deletePos = selStart;
+        senhaModalReal = senhaModalReal.slice(0, deletePos) + senhaModalReal.slice(deletePos + deletedCount);
+    }
+    senhaModalRenderizar(mostrandoTexto);
+});
+// Posições agora abre direto (sem senha)
+document.getElementById('btnAtualizarPosicoes').addEventListener('click', () => {
+    limparFilePreviewPosicoes();
+    document.getElementById('modalUploadPosicoes').classList.remove('hidden');
+});
+document.getElementById('modalSenhaCancelar').addEventListener('click', () => document.getElementById('modalSenha').classList.add('hidden'));
+// A senha agora protege APENAS a edição dos % das carteiras recomendadas
+document.getElementById('modalSenhaConfirmar').addEventListener('click', () => {
+    if (senhaModalReal === SENHA_CORRETA) {
+        document.getElementById('modalSenha').classList.add('hidden');
+        senhaModalReal = ''; document.getElementById('modalSenhaInput').value = '';
+        abrirEditorCarteiras();
+    } else {
+        document.getElementById('modalSenhaErr').style.display = 'block';
+        senhaModalReal = ''; document.getElementById('modalSenhaInput').value = ''; document.getElementById('modalSenhaInput').focus();
+    }
+});
+document.getElementById('modalSenhaInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('modalSenhaConfirmar').click(); });
+document.getElementById('btnToggleSenha').addEventListener('click', () => {
+    const icon = document.getElementById('eyeIcon');
+    const oculto = icon.textContent !== 'visibility_off';
+    icon.textContent = oculto ? 'visibility_off' : 'visibility';
+    senhaModalRenderizar(oculto);
+    document.getElementById('modalSenhaInput').focus();
+});
+
+// Rentabilidade agora abre direto (sem senha)
+document.getElementById('btnAtualizarRentabilidade').addEventListener('click', () => {
+    limparFilePreviewRent();
+    document.getElementById('modalUploadRent').classList.remove('hidden');
+});
+
+// ==== MODAL UPLOAD POSIÇÕES ====
+document.getElementById('modalPosicoesFechar').addEventListener('click', () => document.getElementById('modalUploadPosicoes').classList.add('hidden'));
+document.getElementById('modalPosicoesLimpar').addEventListener('click', limparFilePreviewPosicoes);
+document.getElementById('modalPosicoesSalvar').addEventListener('click', () => {
+    if (!pendingPosicoes) return;
+    posicoesData = pendingPosicoes;
+    pendingPosicoes = null;
+    document.getElementById('modalUploadPosicoes').classList.add('hidden');
+    renderBaseStatus(); renderClientsList();
+    if (currentClient) selectClient(currentClient);
+});
+(function(){
+    const dz = document.getElementById('dzPosicoesModal');
+    const inp = document.getElementById('filePosicoesModal');
+    inp.addEventListener('change', e => { if (e.target.files[0]) parsePosicoesExcel(e.target.files[0]); });
+    dz.addEventListener('click', () => inp.click());
+    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+    dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+    dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); if (e.dataTransfer.files[0]) parsePosicoesExcel(e.dataTransfer.files[0]); });
+})();
+
+// ==== MODAL UPLOAD RENTABILIDADE ====
+document.getElementById('modalRentFechar').addEventListener('click', () => document.getElementById('modalUploadRent').classList.add('hidden'));
+document.getElementById('modalRentLimpar').addEventListener('click', limparFilePreviewRent);
+document.getElementById('modalRentSalvar').addEventListener('click', () => {
+    if (!pendingRentabilidade) return;
+    const byKey = {};
+    rentabilidadeData.forEach(r => { byKey[r.cliente + '|' + r.mes] = r; });
+    pendingRentabilidade.forEach(r => { byKey[r.cliente + '|' + r.mes] = r; });
+    rentabilidadeData = Object.values(byKey).sort((a, b) => a.cliente.localeCompare(b.cliente) || a.mes.localeCompare(b.mes));
+    pendingRentabilidade = null;
+    document.getElementById('modalUploadRent').classList.add('hidden');
+    renderBaseStatus(); renderClientsList();
+    if (currentClient) selectClient(currentClient);
+});
+(function(){
+    const dz = document.getElementById('dzRentModal');
+    const inp = document.getElementById('fileRentModal');
+    inp.addEventListener('change', e => { if (e.target.files[0]) parseRentabilidadeExcel(e.target.files[0]); });
+    dz.addEventListener('click', () => inp.click());
+    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+    dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+    dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); if (e.dataTransfer.files[0]) parseRentabilidadeExcel(e.dataTransfer.files[0]); });
+})();
+
+// ==== CADASTRO / XPERFORMANCE — binds simples (sem senha) ====
+document.getElementById('btnCarregarCadastro').addEventListener('click', () => document.getElementById('fileCadastro').click());
+document.getElementById('fileCadastro').addEventListener('change', e => { if (e.target.files[0]) loadCadastro(e.target.files[0]); });
+document.getElementById('btnCarregarXperformance').addEventListener('click', () => document.getElementById('fileXperformance').click());
+document.getElementById('fileXperformance').addEventListener('change', e => { if (e.target.files[0]) loadXperformance(e.target.files[0]); });
+
+// ==== CONFIRMAÇÃO GENÉRICA + LIMPAR BASES ====
+function askConfirm(title, message, onConfirm) {
+    document.getElementById('confirmActionTitle').textContent = title;
+    document.getElementById('confirmActionMsg').textContent = message;
+    const overlay = document.getElementById('modalConfirmAcao');
+    const btnConfirm = document.getElementById('confirmActionConfirm');
+    const btnCancel = document.getElementById('confirmActionCancel');
+    const fechar = () => overlay.classList.add('hidden');
+    btnConfirm.onclick = () => { fechar(); onConfirm(); };
+    btnCancel.onclick = fechar;
+    overlay.onclick = (e) => { if (e.target === overlay) fechar(); };
+    overlay.classList.remove('hidden');
+}
+document.getElementById('btnLimparCadastro').addEventListener('click', () => {
+    if (!Object.keys(clientNames).length) return;
+    askConfirm('Limpar cadastro de clientes?', 'Você vai precisar carregar o Excel novamente nesta sessão.', () => {
+        clientNames = {}; document.getElementById('fileCadastro').value = '';
+        renderBaseStatus(); renderClientsList(); if (currentClient) selectClient(currentClient);
+    });
+});
+document.getElementById('btnLimparPosicoes').addEventListener('click', () => {
+    if (!posicoesData.length) return;
+    askConfirm('Limpar posições dos clientes?', 'Você vai precisar carregar o Excel novamente nesta sessão.', () => {
+        posicoesData = []; renderBaseStatus(); renderClientsList();
+        document.getElementById('resultSection').innerHTML = '';
+    });
+});
+document.getElementById('btnLimparXperformance').addEventListener('click', () => {
+    if (!xperformanceData.length) return;
+    askConfirm('Limpar XPerformance?', 'As posições importadas do PDF serão removidas. Você vai precisar carregar o PDF novamente nesta sessão.', () => {
+        posicoesData = posicoesData.filter(r => r.origem !== 'XPerformance');
+        xperformanceData = []; document.getElementById('fileXperformance').value = '';
+        renderBaseStatus(); renderClientsList();
+        if (currentClient) selectClient(currentClient);
+    });
+});
+document.getElementById('btnLimparRentabilidade').addEventListener('click', () => {
+    if (!rentabilidadeData.length) return;
+    askConfirm('Limpar base de rentabilidade?', 'Você vai precisar carregar o Excel novamente nesta sessão.', () => {
+        rentabilidadeData = []; renderBaseStatus(); renderClientsList();
+        document.getElementById('resultSection').innerHTML = '';
+    });
+});
+
+// ==== TOPBAR ====
+document.getElementById('hubBackBtn').addEventListener('click', () => {
+    if (window.self !== window.top) window.parent.postMessage({ action: 'hubNavigate', target: 'home' }, '*');
+    else window.location.href = "https://pabloads2020-lang.github.io/Dashboard-Ferramentas-Integradas/";
+});
+document.getElementById('hubNewTabBtn').addEventListener('click', () => window.open(window.location.href, '_blank'));
+(function clock() {
+    const el = document.getElementById('hubClock'); if (!el) return;
+    const now = new Date();
+    el.textContent = now.toLocaleDateString('pt-BR', {weekday:'short',day:'2-digit',month:'short',year:'numeric'}) + ' · ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    setTimeout(clock, 1000);
+})();
+const themeBtn = document.getElementById('hubThemeBtn');
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light') { document.body.classList.add('light'); themeBtn.textContent = '☀️'; }
+themeBtn.addEventListener('click', () => {
+    const isLight = document.body.classList.toggle('light');
+    themeBtn.textContent = isLight ? '☀️' : '🌙';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    if (currentClient) selectClient(currentClient);
+});
+
+// ==== EDITOR DAS CARTEIRAS RECOMENDADAS (protegido pela senha carteiras2025) ====
+const CARTEIRAS_PADRAO = JSON.parse(JSON.stringify(CARTEIRAS)); // snapshot para restaurar
+let editorPerfilAtivo = 'Conservador';
+
+document.getElementById('btnEditarCarteiras').addEventListener('click', () => {
+    document.getElementById('modalSenhaErr').style.display = 'none';
+    senhaModalReal = ''; document.getElementById('modalSenhaInput').value = '';
+    document.getElementById('modalSenha').classList.remove('hidden');
+    setTimeout(() => document.getElementById('modalSenhaInput').focus(), 50);
+});
+
+function abrirEditorCarteiras() {
+    editorPerfilAtivo = clientPerfil(currentClient) || 'Conservador';
+    if (!CARTEIRAS[editorPerfilAtivo]) editorPerfilAtivo = 'Conservador';
+    renderEditorTabs();
+    renderEditorClasses();
+    document.getElementById('modalEditorCarteiras').classList.remove('hidden');
+}
+function renderEditorTabs() {
+    const box = document.getElementById('editorPerfilTabs');
+    box.innerHTML = Object.keys(CARTEIRAS).map(p =>
+        `<div class="bm-seg-item ${p === editorPerfilAtivo ? 'active' : ''}" data-p="${esc(p)}">${esc(p)}</div>`).join('');
+    box.querySelectorAll('.bm-seg-item').forEach(item => item.addEventListener('click', () => {
+        editorPerfilAtivo = item.dataset.p; renderEditorTabs(); renderEditorClasses();
+    }));
+}
+function renderEditorClasses() {
+    const box = document.getElementById('editorClassesBox');
+    const alvo = CARTEIRAS[editorPerfilAtivo].classes;
+    box.innerHTML = CLASSES_ORDER.map(cls => `
+        <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--bd);">
+            <span class="dot-class" style="background:${CLASS_COLORS[cls]}"></span>
+            <span style="flex:1;font-size:var(--fs-sm);color:var(--tx2);">${esc(cls)}</span>
+            <input type="number" min="0" max="100" step="0.5" value="${alvo[cls] || 0}"
+                data-cls="${esc(cls)}" class="modal-input editor-pct"
+                style="width:90px;margin:0;text-align:right;padding:8px 10px;">
+            <span style="color:var(--tx3);width:14px;">%</span>
+        </div>`).join('');
+    box.querySelectorAll('.editor-pct').forEach(inp => inp.addEventListener('input', () => {
+        CARTEIRAS[editorPerfilAtivo].classes[inp.dataset.cls] = parseFloat(inp.value) || 0;
+        atualizarSomaEditor();
+        renderClientsList();
+        if (currentClient) selectClient(currentClient);
+    }));
+    atualizarSomaEditor();
+}
+function atualizarSomaEditor() {
+    const soma = CLASSES_ORDER.reduce((s, c) => s + (CARTEIRAS[editorPerfilAtivo].classes[c] || 0), 0);
+    const ok = Math.abs(soma - 100) < 0.01;
+    const el = document.getElementById('editorSoma');
+    el.style.color = ok ? 'var(--pos)' : 'var(--neg)';
+    el.textContent = (ok ? '✓ ' : '⚠ ') + 'Soma: ' + (soma % 1 === 0 ? soma : soma.toFixed(1)) + '%' + (ok ? '' : ' (deveria ser 100%)');
+}
+document.getElementById('editorFechar').addEventListener('click', () => document.getElementById('modalEditorCarteiras').classList.add('hidden'));
+document.getElementById('editorResetar').addEventListener('click', () => {
+    askConfirm('Restaurar percentuais padrão?', 'Os percentuais de todos os perfis voltam aos valores originais desta versão.', () => {
+        Object.keys(CARTEIRAS_PADRAO).forEach(p => { CARTEIRAS[p].classes = JSON.parse(JSON.stringify(CARTEIRAS_PADRAO[p].classes)); });
+        renderEditorClasses(); renderClientsList(); if (currentClient) selectClient(currentClient);
+    });
+    document.getElementById('confirmActionConfirm').textContent = 'Restaurar';
+});
+
+// Gera e baixa um novo HTML já com os percentuais atualizados embutidos
+document.getElementById('editorBaixar').addEventListener('click', () => {
+    const serial = 'const CARTEIRAS = ' + JSON.stringify(CARTEIRAS) + ';';
+    // garante que os modais fiquem ocultos no arquivo salvo
+    document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
+    let html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    document.getElementById('modalEditorCarteiras').classList.remove('hidden');
+    // substitui a definição original de CARTEIRAS pela versão atualizada
+    html = html.replace(/const CARTEIRAS = \{[\s\S]*?\n\};/, serial);
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0, 10);
+    a.href = url; a.download = `aderencia_carteiras_${stamp}.html`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setStatus('stCarteiras', 'ok', '✓ HTML atualizado baixado · valores em uso nesta sessão');
+});
+
+// ==== INIT ====
+renderBaseStatus();
+renderClientsList();
+</script>
+</body>
+</html>
