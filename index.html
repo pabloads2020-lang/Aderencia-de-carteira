@@ -50,6 +50,25 @@
     var s=document.createElement('script');s.src=cdns[i++];s.onerror=next;document.head.appendChild(s);}
   next();
 })();
+(function(){
+  // jsPDF precisa carregar ANTES do plugin autoTable (autoTable estende o prototype do jsPDF)
+  var jspdfCdns=[
+    'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+    'https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js',
+    'https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js'
+  ], j=0;
+  var autoCdns=[
+    'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js',
+    'https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js',
+    'https://unpkg.com/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js'
+  ], a=0;
+  function nextAuto(){if(a>=autoCdns.length){window._autotableFailed=true;return;}
+    var s=document.createElement('script');s.src=autoCdns[a++];s.onerror=nextAuto;document.head.appendChild(s);}
+  function nextJspdf(){if(j>=jspdfCdns.length){window._jspdfFailed=true;return;}
+    var s=document.createElement('script');s.src=jspdfCdns[j++];
+    s.onload=nextAuto; s.onerror=nextJspdf; document.head.appendChild(s);}
+  nextJspdf();
+})();
 </script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -154,6 +173,11 @@ strong{font-weight:700;}
 .btn-clear-base:hover{border-color:var(--neg);color:var(--neg);background:var(--neg-soft);}
 .btn-clear-base.active{border-color:var(--gold);color:var(--gold2);background:var(--gold-soft);}
 .btn-clear-base.active:hover{border-color:var(--gold);color:var(--gold2);background:var(--gold-soft2);}
+#btnBaixarMetodologia{background:transparent;border-color:var(--bd);color:var(--tx2);}
+#btnBaixarMetodologia:hover{border-color:var(--gold);color:var(--gold2);background:var(--gold-soft);}
+#btnBaixarMetodologia.is-working{border-color:var(--gold);color:#1a1300;background:var(--gold);box-shadow:var(--shadow-gold);}
+#btnBaixarMetodologia.is-working:hover{border-color:var(--gold);color:#1a1300;background:var(--gold);}
+.modal-btn.cancel.is-working{border-color:var(--gold);color:#1a1300;background:var(--gold);box-shadow:var(--shadow-gold);}
 #btnToggleSemPatrimonio.active .material-symbols-outlined{color:var(--gold2);}
 #btnExportarExcel{border-color:rgba(56,207,146,.3);color:var(--pos);background:var(--pos-soft);}
 #btnExportarExcel:hover{border-color:var(--pos);color:var(--pos);background:rgba(56,207,146,.2);}
@@ -326,6 +350,22 @@ strong{font-weight:700;}
 #modalEditorCarteiras .editor-pct{padding:6px 10px !important;}
 #modalEditorCarteiras .modal-actions{position:sticky;bottom:0;background:var(--bg-card);padding-top:var(--sp-3);margin-top:var(--sp-2);}
 .modal-box.wide{max-width:580px;}
+.modal-box.scroll{max-height:82vh;overflow:hidden;padding:0;display:flex;flex-direction:column;}
+.modal-scroll-inner{overflow-y:auto;padding:var(--sp-6);min-height:0;}
+.modal-scroll-inner::-webkit-scrollbar{width:3px;}
+.modal-scroll-inner::-webkit-scrollbar-track{background:transparent;}
+.modal-scroll-inner::-webkit-scrollbar-thumb{background:rgba(162,168,196,.25);border-radius:3px;}
+.modal-scroll-inner{scrollbar-width:thin;scrollbar-color:rgba(162,168,196,.25) transparent;}
+.metodologia-body{font-size:var(--fs-sm);color:var(--tx2);line-height:1.65;}
+.metodologia-body h4{color:var(--tx);font-size:var(--fs-base);font-weight:700;margin:var(--sp-5) 0 6px;}
+.metodologia-body h4:first-child{margin-top:0;}
+.metodologia-body p{margin-bottom:8px;}
+.metodologia-body .formula{font-family:'DM Mono',monospace;font-size:var(--fs-xs);background:var(--bg-card3);border:1px solid var(--bd);border-radius:var(--r-sm);padding:8px 12px;color:var(--tx);}
+.metodologia-body table{width:100%;border-collapse:collapse;margin:6px 0 10px;font-size:var(--fs-xs);}
+.metodologia-body th,.metodologia-body td{border:1px solid var(--bd);padding:5px 8px;text-align:center;}
+.metodologia-body th{background:var(--bg-card3);color:var(--tx);font-weight:700;}
+.metodologia-body td:first-child,.metodologia-body th:first-child{text-align:left;font-weight:600;color:var(--tx);}
+.metodologia-body .mt-pos{color:var(--pos);font-weight:600;}
 .modal-title{font-size:var(--fs-lg);font-weight:700;margin-bottom:6px;}
 .modal-sub{font-size:var(--fs-sm);color:var(--tx3);margin-bottom:var(--sp-5);line-height:1.6;}
 .modal-input{width:100%;background:var(--bg-card3);border:1px solid var(--bd);border-radius:var(--r-sm);padding:11px 40px 11px 14px;color:var(--tx);font-size:var(--fs-base);font-family:inherit;outline:none;margin-bottom:var(--sp-3);}
@@ -462,6 +502,7 @@ strong{font-weight:700;}
         <div class="toolbar-actions">
             <button class="btn-clear-base" id="btnLimparBusca"><span class="material-symbols-outlined">close</span>Limpar</button>
             <button class="btn-clear-base" id="btnExportarExcel"><span class="material-symbols-outlined">download</span>Exportar Excel</button>
+            <button class="btn-clear-base" id="btnBaixarMetodologia"><span class="material-symbols-outlined">description</span>Metodologia</button>
             <span class="clients-stats" id="clientsStats"></span>
             <label class="ios-switch" id="advFiltersToggleWrap">
                 <input type="checkbox" id="advFiltersToggle">
@@ -603,6 +644,51 @@ strong{font-weight:700;}
             <button class="modal-btn cancel" id="editorFechar">Fechar</button>
             <button class="modal-btn cancel" id="editorResetar">↺ Restaurar padrão</button>
             <button class="modal-btn confirm" id="editorBaixar">💾 Baixar HTML atualizado</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay hidden" id="modalMetodologia">
+    <div class="modal-box wide scroll">
+        <div class="modal-scroll-inner">
+        <div class="modal-title">Metodologia · Aderência de Carteira</div>
+        <div class="modal-sub">Como o percentual de aderência de cada cliente é calculado.</div>
+        <div class="metodologia-body">
+            <h4>1. O que é a Aderência</h4>
+            <p>A Aderência mede o quanto a carteira efetiva de um cliente se sobrepõe à carteira recomendada para o perfil dele (Conservador, Moderado, Agressivo), considerando a distribuição percentual por classe de ativo.</p>
+
+            <h4>2. Fórmula — soma dos mínimos por classe</h4>
+            <p>Para cada classe de ativo, compara-se o percentual que o cliente efetivamente possui naquela classe (posição na classe / patrimônio total classificado) com o percentual que a carteira recomendada do perfil indica para essa mesma classe. O menor dos dois valores é somado ao indicador final:</p>
+            <p class="formula">Aderência = soma, para cada classe, de mín( % atual na classe , % alvo na classe )</p>
+            <p>O resultado varia de 0% a 100%: quanto mais a distribuição do cliente "encaixa" dentro do que é recomendado, mais próximo de 100% fica o indicador. Alocações fora do perfil — a mais ou em classes não recomendadas — não somam pontos, pois o mínimo entre atual e alvo penaliza tanto excesso quanto falta.</p>
+
+            <h4>3. Corte de aderência</h4>
+            <p><span class="mt-pos">Considera-se o cliente ADERENTE quando Aderência ≥ 80%.</span> Esse corte é o usado em todos os filtros e exportações do sistema.</p>
+
+            <h4>4. Carteiras recomendadas por perfil</h4>
+            <p>Percentuais de referência vigentes no momento. Podem ser ajustados na tela "Editar %" (área protegida por senha), passando a valer imediatamente no cálculo.</p>
+            <div id="metodologiaTabelaCarteiras"></div>
+
+            <h4>5. Origem dos dados de posição</h4>
+            <p><strong>Cadastro de Clientes</strong>: define código, nome e perfil — determina qual carteira recomendada usar no cálculo.</p>
+            <p><strong>Posições dos Clientes</strong>: base em massa com o patrimônio de cada cliente já classificado por classe de ativo.</p>
+            <p><strong>XPerformance (PDF)</strong>: relatório individual; as posições são extraídas do PDF e classificadas nas mesmas classes do sistema. Caixa e Proventos são tratados como liquidez Pós-fixado, para não penalizar a aderência por saldo em trânsito. Ambas as fontes alimentam o mesmo cálculo, sem distinção.</p>
+
+            <h4>6. % do CDI (indicador complementar)</h4>
+            <p>Calculado a partir da Base de Rentabilidade mensal do cliente:</p>
+            <p class="formula">Rentabilidade acumulada = (1 + r1) × (1 + r2) × ... × (1 + rn) − 1<br>CDI acumulado = (1 + cdi1) × (1 + cdi2) × ... × (1 + cdin) − 1<br>% do CDI = (Rentabilidade acumulada / CDI acumulado) × 100</p>
+            <p>Pode ser calculado sobre todo o histórico disponível ou restrito a um período (ano) selecionado nos filtros avançados, e é usado em conjunto com a Aderência no filtro combinado "Aderência × CDI".</p>
+
+            <h4>7. Limitações</h4>
+            <p>O cálculo depende da classificação correta de cada ativo nas classes padronizadas do sistema; erros de classificação na origem (base ou PDF) afetam o resultado. Sem posição classificada (patrimônio total = 0) ou sem perfil cadastrado, a Aderência não é calculada para o cliente. O % do CDI só é calculado quando há registros de CDI no mesmo período da rentabilidade do cliente.</p>
+        </div>
+        </div>
+        <div class="modal-actions" style="flex:none;padding:0 var(--sp-6) var(--sp-6);">
+            <button class="modal-btn cancel" id="btnFecharMetodologia" style="flex:none;padding:11px 22px;">Fechar</button>
+            <button class="modal-btn cancel" id="btnExportarMetodologiaPdf" style="flex:none;padding:11px 22px;display:flex;align-items:center;gap:6px;">
+                <span class="material-symbols-outlined" style="font-size:17px;">picture_as_pdf</span>
+                Exportar PDF
+            </button>
         </div>
     </div>
 </div>
@@ -1737,6 +1823,239 @@ document.getElementById('btnExportarExcel').addEventListener('click', () => {
 
     const stamp = new Date().toISOString().slice(0, 10);
     XLSX.writeFile(wb, `aderencia_clientes_${stamp}.xlsx`);
+});
+
+// ==== DOWNLOAD DA METODOLOGIA (PDF com a identidade visual Pleno Gestão) ====
+function gerarPdfMetodologia() {
+    const { jsPDF } = window.jspdf || {};
+    if (!jsPDF || window._jspdfFailed) {
+        alert('Não foi possível carregar a biblioteca de geração de PDF. Verifique a conexão e recarregue a página.');
+        return;
+    }
+
+    // Paleta alinhada ao design system do app (tokens claros, para impressão em papel)
+    const NAVY = [17, 20, 42];      // --tx (tema claro)
+    const NAVY_DARK = [8, 9, 15];   // --bg (tema escuro), usado na faixa de topo
+    const GOLD = [203, 168, 105];   // --gold
+    const GOLD2 = [231, 201, 138];  // --gold2
+    const TX2 = [77, 84, 118];      // --tx2
+    const TX3 = [126, 134, 168];    // --tx3
+    const BORDER = [219, 224, 239]; // --bd (tema claro)
+    const GOLD_SOFT = [250, 245, 235];
+    const POS = [23, 148, 95];      // --pos (tema claro)
+
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const PW = doc.internal.pageSize.getWidth();
+    const PH = doc.internal.pageSize.getHeight();
+    const MX = 20;
+    const CW = PW - MX * 2;
+    let y = 0;
+
+    function footer() {
+        doc.setDrawColor(...BORDER); doc.setLineWidth(0.2);
+        doc.line(MX, PH - 14, PW - MX, PH - 14);
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...TX3);
+        doc.text('Pleno Gestão de Investimentos · Metodologia de Aderência de Carteira · Uso interno', MX, PH - 9);
+    }
+    function paginar() {
+        const total = doc.internal.getNumberOfPages();
+        for (let p = 1; p <= total; p++) {
+            doc.setPage(p);
+            doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...TX3);
+            doc.text(`${p} / ${total}`, PW - MX, PH - 9, { align: 'right' });
+        }
+    }
+    function novaPagina() {
+        footer();
+        doc.addPage();
+        y = MX + 4;
+    }
+    function garantirEspaco(altura) {
+        if (y + altura > PH - 20) novaPagina();
+    }
+    function tituloSecao(num, texto) {
+        garantirEspaco(16);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...GOLD);
+        doc.text(String(num).padStart(2, '0'), MX, y);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(12.5); doc.setTextColor(...NAVY);
+        doc.text(texto, MX + 10, y);
+        doc.setDrawColor(...GOLD); doc.setLineWidth(0.6);
+        doc.line(MX, y + 2.6, MX + CW, y + 2.6);
+        y += 10;
+    }
+    function paragrafo(texto, opts) {
+        opts = opts || {};
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(opts.size || 9.5); doc.setTextColor(...(opts.color || TX2));
+        const linhas = doc.splitTextToSize(texto, opts.width || CW);
+        garantirEspaco(linhas.length * 4.6 + 2);
+        doc.text(linhas, MX, y);
+        y += linhas.length * 4.6 + (opts.spacingAfter ?? 5);
+    }
+    function bullet(texto) {
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...TX2);
+        const linhas = doc.splitTextToSize(texto, CW - 7);
+        garantirEspaco(linhas.length * 4.6 + 1.5);
+        doc.setFillColor(...GOLD); doc.circle(MX + 1.1, y - 1.3, 0.8, 'F');
+        doc.text(linhas, MX + 5, y);
+        y += linhas.length * 4.6 + 3;
+    }
+    function caixaDestaque(titulo, linhas, corBorda) {
+        const cor = corBorda || GOLD;
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5);
+        const wrapped = linhas.map(l => doc.splitTextToSize(l, CW - 14)).flat();
+        const alturaCaixa = 9 + wrapped.length * 5 + 4;
+        garantirEspaco(alturaCaixa + 4);
+        doc.setFillColor(...GOLD_SOFT);
+        doc.setDrawColor(...cor); doc.setLineWidth(0.3);
+        doc.roundedRect(MX, y, CW, alturaCaixa, 2, 2, 'FD');
+        doc.setFillColor(...cor); doc.rect(MX, y, 1.4, alturaCaixa, 'F');
+        let yy = y + 6.5;
+        if (titulo) {
+            doc.setFont('helvetica', 'bold'); doc.setFontSize(9.5); doc.setTextColor(...NAVY);
+            doc.text(titulo, MX + 7, yy);
+            yy += 6;
+        }
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...NAVY);
+        doc.text(wrapped, MX + 7, yy);
+        y += alturaCaixa + 7;
+    }
+
+    // ---- CAPA / CABEÇALHO ----
+    doc.setFillColor(...NAVY_DARK);
+    doc.rect(0, 0, PW, 46, 'F');
+    doc.setDrawColor(...GOLD); doc.setLineWidth(1.1);
+    doc.line(0, 46, PW, 46);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5); doc.setTextColor(...GOLD);
+    doc.text('P L E N O   G E S T Ã O   D E   I N V E S T I M E N T O S', MX, 16);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.setTextColor(255, 255, 255);
+    doc.text('Metodologia de Cálculo', MX, 29);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(13); doc.setTextColor(...GOLD2);
+    doc.text('Aderência de Carteira', MX, 37.5);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(200, 204, 224);
+    doc.text('Documento gerado em ' + new Date().toLocaleDateString('pt-BR'), PW - MX, 16, { align: 'right' });
+    doc.text('Uso interno · Time de Assessoria', PW - MX, 21, { align: 'right' });
+
+    y = 58;
+
+    // ---- 1. O QUE É ----
+    tituloSecao(1, 'O que é a Aderência');
+    paragrafo('A Aderência mede o quanto a carteira efetiva de um cliente se sobrepõe à carteira recomendada para o perfil dele (Conservador, Moderado, Arrojado etc.), considerando a distribuição percentual por classe de ativo. É o principal indicador de o quanto a alocação praticada segue a política de investimento definida pela casa.');
+
+    // ---- 2. FÓRMULA ----
+    tituloSecao(2, 'Fórmula — soma dos mínimos por classe');
+    paragrafo('Para cada classe de ativo, compara-se o percentual que o cliente efetivamente possui naquela classe (posição na classe / patrimônio total classificado) com o percentual que a carteira recomendada do perfil indica para essa mesma classe. O menor dos dois valores é somado ao indicador final:');
+    caixaDestaque(null, [
+        'Aderência = soma, para cada classe, de min( % atual na classe , % alvo na classe )',
+        'somatório sobre todas as classes existentes — tanto as que o cliente possui quanto as previstas na carteira recomendada.'
+    ]);
+    paragrafo('O resultado varia de 0% a 100%: quanto mais a distribuição do cliente "encaixa" dentro do que é recomendado, mais próximo de 100% fica o indicador. Alocações fora do perfil — a mais ou em classes não recomendadas — não somam pontos, pois o mínimo entre atual e alvo penaliza tanto excesso quanto falta.', { spacingAfter: 2 });
+    caixaDestaque('Corte de aderência', ['Considera-se o cliente ADERENTE quando Aderência for maior ou igual a 80%. Esse corte é o usado em todos os filtros e exportações do sistema.'], POS);
+
+    // ---- 3. CARTEIRAS RECOMENDADAS (tabela) ----
+    tituloSecao(3, 'Carteiras recomendadas por perfil');
+    paragrafo('Percentuais de referência vigentes no momento da geração deste documento. Podem ser ajustados na tela "Editar %" (área protegida por senha), passando a valer imediatamente no cálculo de aderência.', { spacingAfter: 4 });
+
+    const perfis = Object.keys(CARTEIRAS);
+    const head = [['Classe de ativo', ...perfis]];
+    const body = CLASSES_ORDER
+        .filter(c => perfis.some(p => (CARTEIRAS[p].classes[c] || 0) > 0))
+        .map(c => [c, ...perfis.map(p => (CARTEIRAS[p].classes[c] || 0) + '%')]);
+
+    if (typeof doc.autoTable === 'function') {
+        doc.autoTable({
+            head, body, startY: y, margin: { left: MX, right: MX },
+            styles: { font: 'helvetica', fontSize: 9, textColor: NAVY, lineColor: BORDER, lineWidth: 0.15, cellPadding: 2.6 },
+            headStyles: { fillColor: NAVY_DARK, textColor: GOLD2, fontStyle: 'bold', halign: 'center' },
+            columnStyles: { 0: { fontStyle: 'bold', textColor: NAVY, halign: 'left' } },
+            bodyStyles: { halign: 'center' },
+            alternateRowStyles: { fillColor: [248, 249, 253] }
+        });
+        y = doc.lastAutoTable.finalY + 9;
+    } else {
+        // Fallback sem o plugin autoTable: desenha a grade manualmente com as mesmas primitivas do restante do documento
+        const nCols = head[0].length;
+        const colW = CW / nCols;
+        const rowH = 8;
+        garantirEspaco(rowH * (body.length + 1) + 4);
+        doc.setFillColor(...NAVY_DARK);
+        doc.rect(MX, y, CW, rowH, 'F');
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...GOLD2);
+        head[0].forEach((h, i) => doc.text(h, MX + colW * i + colW / 2, y + 5.4, { align: 'center' }));
+        y += rowH;
+        body.forEach((row, ri) => {
+            garantirEspaco(rowH);
+            if (ri % 2 === 1) { doc.setFillColor(248, 249, 253); doc.rect(MX, y, CW, rowH, 'F'); }
+            doc.setDrawColor(...BORDER); doc.setLineWidth(0.15); doc.rect(MX, y, CW, rowH);
+            row.forEach((cell, ci) => {
+                doc.setFont('helvetica', ci === 0 ? 'bold' : 'normal'); doc.setFontSize(9); doc.setTextColor(...NAVY);
+                const cx = ci === 0 ? MX + colW * ci + 2.5 : MX + colW * ci + colW / 2;
+                doc.text(String(cell), cx, y + 5.4, { align: ci === 0 ? 'left' : 'center', maxWidth: colW - 3 });
+            });
+            y += rowH;
+        });
+        y += 9;
+    }
+
+    // ---- 4. ORIGEM DOS DADOS ----
+    tituloSecao(4, 'Origem dos dados de posição');
+    bullet('Cadastro de Clientes: define código, nome e perfil — é o que determina qual carteira recomendada usar no cálculo.');
+    bullet('Posições dos Clientes: base em massa com o patrimônio de cada cliente já classificado por classe de ativo.');
+    bullet('XPerformance (PDF): relatório individual de um cliente; as posições são extraídas do PDF e classificadas nas mesmas classes do sistema. Caixa e Proventos são tratados como liquidez Pós-fixado, para não penalizar a aderência por saldo em trânsito.');
+    paragrafo('Ambas as fontes de posição — base em massa e XPerformance — alimentam o mesmo cálculo de aderência, sem distinção.', { spacingAfter: 2 });
+
+    // ---- 5. % DO CDI ----
+    tituloSecao(5, '% do CDI (indicador complementar)');
+    paragrafo('Calculado a partir da Base de Rentabilidade mensal do cliente:');
+    caixaDestaque(null, [
+        'Rentabilidade acumulada = produto de (1 + rentabilidade do mês) no período, menos 1',
+        'CDI acumulado = produto de (1 + CDI do mês) no mesmo período, menos 1',
+        '% do CDI = (Rentabilidade acumulada / CDI acumulado) x 100'
+    ]);
+    paragrafo('Pode ser calculado sobre todo o histórico disponível ou restrito a um período (ano ou anos) selecionado nos filtros avançados, e é usado em conjunto com a Aderência no filtro combinado "Aderência × CDI".');
+
+    // ---- 6. LIMITAÇÕES ----
+    tituloSecao(6, 'Limitações');
+    bullet('O cálculo depende da classificação correta de cada ativo nas classes padronizadas do sistema; erros de classificação na origem (base ou PDF) afetam o resultado.');
+    bullet('Sem posição classificada (patrimônio total = 0) ou sem perfil cadastrado, a Aderência não é calculada para o cliente.');
+    bullet('O % do CDI só é calculado quando há registros de CDI no mesmo período da rentabilidade do cliente.');
+
+    footer();
+    paginar();
+
+    const stampMeta = new Date().toISOString().slice(0, 10);
+    doc.save(`metodologia_aderencia_${stampMeta}.pdf`);
+}
+
+function popularTabelaMetodologia() {
+    const el = document.getElementById('metodologiaTabelaCarteiras');
+    if (!el) return;
+    const perfis = Object.keys(CARTEIRAS);
+    const classes = CLASSES_ORDER.filter(c => perfis.some(p => (CARTEIRAS[p].classes[c] || 0) > 0));
+    let html = '<table><thead><tr><th>Classe de ativo</th>' + perfis.map(p => `<th>${p}</th>`).join('') + '</tr></thead><tbody>';
+    classes.forEach(c => {
+        html += `<tr><td>${c}</td>` + perfis.map(p => `<td>${CARTEIRAS[p].classes[c] || 0}%</td>`).join('') + '</tr>';
+    });
+    html += '</tbody></table>';
+    el.innerHTML = html;
+}
+
+document.getElementById('btnBaixarMetodologia').addEventListener('click', () => {
+    popularTabelaMetodologia();
+    document.getElementById('modalMetodologia').classList.remove('hidden');
+});
+document.getElementById('btnFecharMetodologia').addEventListener('click', () => {
+    document.getElementById('modalMetodologia').classList.add('hidden');
+});
+document.getElementById('modalMetodologia').addEventListener('click', (e) => {
+    if (e.target.id === 'modalMetodologia') e.target.classList.add('hidden');
+});
+document.getElementById('btnExportarMetodologiaPdf').addEventListener('click', (ev) => {
+    const btn = ev.currentTarget;
+    btn.classList.add('is-working');
+    setTimeout(() => {
+        try { gerarPdfMetodologia(); }
+        finally { setTimeout(() => btn.classList.remove('is-working'), 350); }
+    }, 30);
 });
 
 // ==== MODAL SENHA (Posições) — senha fixa: carteiras2025 ====
