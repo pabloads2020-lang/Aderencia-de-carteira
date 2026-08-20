@@ -80,13 +80,18 @@ html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
     --bg-topbar: #141720; --border-topbar: #2a2e3f; --text-topbar: #e1e3ef;
     --text2-topbar: #9a9eb8; --text3-topbar: #5c6080; --gold-topbar: #f5c842; --amber-topbar: #e0ac2c;
     font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg-topbar); border-bottom: 1px solid var(--border-topbar); height: 52px;
+    background: rgba(20,23,32,.3); border-bottom: 1px solid rgba(255,255,255,.14);
+    box-shadow: 0 4px 16px -8px rgba(0,0,0,0.4), inset 0 -1px 0 rgba(255,255,255,.05);
+    height: 52px;
     display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; gap: 12px;
     position: sticky; top: 0; z-index: 200;
+    backdrop-filter: blur(8px) saturate(200%); -webkit-backdrop-filter: blur(8px) saturate(200%);
 }
 body.light .hub-topbar {
     --bg-topbar: #ffff; --border-topbar: #d4d8e2; --text-topbar: #1a1d2e;
     --text2-topbar: #4a4f6a; --text3-topbar: #8a90a8; --gold-topbar: #b8860b; --amber-topbar: #c47d00;
+    background: #ffffff; border-bottom: 1px solid #d4d8e2; box-shadow: none;
+    backdrop-filter: none; -webkit-backdrop-filter: none;
 }
 .hub-topbar-left, .hub-topbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .hub-topbar-center { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; pointer-events: none; }
@@ -114,8 +119,8 @@ body.light .hub-topbar {
 
 /* ==== DESIGN TOKENS (mesmos do projeto Rentabilidade) ==== */
 :root{
-  --bg:#08090f; --bg-card:#0e1120; --bg-card2:#141828; --bg-card3:#1b2036;
-  --bd:#232842; --bd2:#323a5c; --tx:#f2f3fa; --tx2:#a2a8c4; --tx3:#6b7295;
+  --bg:#07080B; --bg-card:#0D0F14; --bg-card2:#12151C; --bg-card3:#171B26;
+  --bd:#232842; --bd2:#323a5c; --tx:#F5F6F8; --tx2:#9CA1AC; --tx3:#767C8A;
   --gold:#cba869; --gold2:#e7c98a; --gold-soft:rgba(203,168,105,.12); --gold-soft2:rgba(203,168,105,.24);
   --pos:#38cf92; --pos-soft:rgba(56,207,146,.12); --neg:#f2594c; --neg-soft:rgba(242,89,76,.13);
   --info:#63a8ec; --info-soft:rgba(99,168,236,.12);
@@ -378,8 +383,8 @@ strong{font-weight:700;}
 .modal-btn{flex:1;padding:11px;border-radius:var(--r-sm);font-size:var(--fs-base);font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;}
 .modal-btn.cancel{background:transparent;border:1px solid var(--bd);color:var(--tx2);}
 .modal-btn.cancel:hover{border-color:var(--gold);color:var(--gold2);background:var(--gold-soft);}
-.modal-btn.confirm{background:linear-gradient(180deg,var(--gold2),var(--gold));border:none;color:#0b1420;}
-.modal-btn.confirm:hover{filter:brightness(1.08);box-shadow:var(--shadow-gold);}
+.modal-btn.confirm{background:var(--gold-soft);border:1px solid rgba(203,168,105,.45);color:var(--gold);}
+.modal-btn.confirm:hover{background:var(--gold-soft2);border-color:var(--gold);}
 .modal-btn.confirm:disabled{opacity:.4;cursor:default;filter:none;box-shadow:none;}
 .modal-btn.confirm-danger{background:var(--bg-card3);border:1px solid rgba(242,89,76,.4);color:var(--neg);}
 .modal-btn.confirm-danger:hover{background:var(--neg-soft);border-color:var(--neg);}
@@ -486,7 +491,7 @@ strong{font-weight:700;}
         <div class="bs-icon"><span class="material-symbols-outlined">tune</span></div>
         <div class="bs-info">
             <span class="base-status-label">Carteiras Recomendadas (base da aderência)</span>
-            <span class="st idle" id="stCarteiras">🔒 Percentuais por perfil · edição protegida por senha</span>
+            <span class="st idle" id="stCarteiras"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:3px;"><rect x="4" y="11" width="16" height="9" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Percentuais por perfil · edição protegida por senha</span>
         </div>
         <div class="bs-actions">
             <button class="btn-update-base" id="btnEditarCarteiras"><span class="material-symbols-outlined">lock</span>Editar %</button>
@@ -550,7 +555,7 @@ strong{font-weight:700;}
     <div id="resultSection" style="margin-top:1.75rem;">
         <div class="result-panel">
             <div class="empty">
-                <div class="empty-icon">📊</div>
+                <div class="empty-icon"><svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg></div>
                 <div class="empty-text">Carregue o Cadastro, as Posições e a Rentabilidade, depois selecione um cliente na lista para ver a aderência à carteira recomendada.</div>
             </div>
         </div>
@@ -562,7 +567,7 @@ strong{font-weight:700;}
 <!-- Modal: senha para editar as Carteiras Recomendadas -->
 <div class="modal-overlay hidden" id="modalSenha">
     <div class="modal-box">
-        <div class="modal-title">🔒 Editar Carteiras Recomendadas</div>
+        <div class="modal-title"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-3px;margin-right:4px;"><rect x="4" y="11" width="16" height="9" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Editar Carteiras Recomendadas</div>
         <div class="modal-sub">Insira a senha para editar os percentuais das carteiras recomendadas por perfil.</div>
         <div class="modal-err" id="modalSenhaErr">Senha incorreta. Tente novamente.</div>
         <div class="modal-input-wrap">
@@ -579,7 +584,7 @@ strong{font-weight:700;}
 <!-- Modal: upload de Posições -->
 <div class="modal-overlay hidden" id="modalUploadPosicoes">
     <div class="modal-box wide">
-        <div class="modal-title">📥 Carregar Posições dos Clientes</div>
+        <div class="modal-title"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-3px;margin-right:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Carregar Posições dos Clientes</div>
         <div class="modal-sub">Carregue o relatório de posições (abas <strong>fundos_investimento, renda_fixa, previdencia, tesouro_direto, coe, ações, fii</strong>). Os dados ficam disponíveis apenas nesta sessão.</div>
         <div class="upload-split">
             <div class="modal-dropzone" id="dzPosicoesModal">
@@ -592,8 +597,8 @@ strong{font-weight:700;}
         <div class="st-bar" id="stPosicoesModal"><span class="st idle">Aguardando arquivo…</span></div>
         <div class="modal-actions">
             <button class="modal-btn cancel" id="modalPosicoesFechar">Fechar</button>
-            <button class="modal-btn cancel" id="modalPosicoesLimpar">🗑️ Limpar</button>
-            <button class="modal-btn confirm" id="modalPosicoesSalvar" disabled>📥 Carregar dados</button>
+            <button class="modal-btn cancel" id="modalPosicoesLimpar"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:2px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>Limpar</button>
+            <button class="modal-btn confirm" id="modalPosicoesSalvar" disabled><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:2px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Carregar dados</button>
         </div>
     </div>
 </div>
@@ -601,7 +606,7 @@ strong{font-weight:700;}
 <!-- Modal: upload de Rentabilidade (mesma lógica do projeto Rentabilidade) -->
 <div class="modal-overlay hidden" id="modalUploadRent">
     <div class="modal-box wide">
-        <div class="modal-title">📈 Carregar Base de Rentabilidade</div>
+        <div class="modal-title"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-3px;margin-right:4px;"><polyline points="3 17 9 11 13 15 21 6"></polyline><polyline points="14 6 21 6 21 13"></polyline></svg>Carregar Base de Rentabilidade</div>
         <div class="modal-sub">Carregue o arquivo Excel com a aba <strong>EVOLUÇÃO PATRIMONIAL</strong> (colunas: Cliente, Data, Rentabilidade, CDI, IPCA, IBOV, S&amp;P 500, IFIX).</div>
         <div class="upload-split">
             <div class="modal-dropzone" id="dzRentModal">
@@ -614,8 +619,8 @@ strong{font-weight:700;}
         <div class="st-bar" id="stRentModal"><span class="st idle">Aguardando arquivo…</span></div>
         <div class="modal-actions">
             <button class="modal-btn cancel" id="modalRentFechar">Fechar</button>
-            <button class="modal-btn cancel" id="modalRentLimpar">🗑️ Limpar</button>
-            <button class="modal-btn confirm" id="modalRentSalvar" disabled>📥 Carregar dados</button>
+            <button class="modal-btn cancel" id="modalRentLimpar"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:2px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>Limpar</button>
+            <button class="modal-btn confirm" id="modalRentSalvar" disabled><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:2px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Carregar dados</button>
         </div>
     </div>
 </div>
@@ -635,7 +640,7 @@ strong{font-weight:700;}
 <!-- Modal: EDITOR das Carteiras Recomendadas (protegido por senha) -->
 <div class="modal-overlay hidden" id="modalEditorCarteiras">
     <div class="modal-box wide">
-        <div class="modal-title">✏️ Editar Carteiras Recomendadas</div>
+        <div class="modal-title"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-3px;margin-right:4px;"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path><path d="m15 5 4 4"></path></svg>Editar Carteiras Recomendadas</div>
         <div class="modal-sub">Ajuste os percentuais por classe de cada perfil. A soma de cada perfil deve fechar em 100%. As alterações passam a valer na hora no cálculo de aderência — clique em <strong>Baixar HTML atualizado</strong> para salvar um novo arquivo já com esses valores.</div>
         <div class="bm-segment" id="editorPerfilTabs" style="margin-bottom:var(--sp-4);"></div>
         <div id="editorClassesBox"></div>
@@ -643,7 +648,7 @@ strong{font-weight:700;}
         <div class="modal-actions" style="flex-wrap:wrap;">
             <button class="modal-btn cancel" id="editorFechar">Fechar</button>
             <button class="modal-btn cancel" id="editorResetar">↺ Restaurar padrão</button>
-            <button class="modal-btn confirm" id="editorBaixar">💾 Baixar HTML atualizado</button>
+            <button class="modal-btn confirm" id="editorBaixar">Baixar HTML atualizado</button>
         </div>
     </div>
 </div>
@@ -795,7 +800,7 @@ function renderBaseStatus() {
 // ==== CADASTRO (nome + código + perfil) ====
 function loadCadastro(file) {
     readWorkbook(file, (wb, err) => {
-        if (err) { setStatus('stCadastro', 'err', '❌ ' + err); return; }
+        if (err) { setStatus('stCadastro', 'err', '✗ ' + err); return; }
         const sheet = wb.Sheets[wb.SheetNames[0]];
         const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
         const map = {};
@@ -819,7 +824,7 @@ function loadCadastro(file) {
                 if (code && name) { map[code] = { nome: name, perfil: perfil || null }; found++; }
             }
         });
-        if (!found) { setStatus('stCadastro', 'err', '❌ Colunas de código/nome não reconhecidas'); return; }
+        if (!found) { setStatus('stCadastro', 'err', '✗ Colunas de código/nome não reconhecidas'); return; }
         clientNames = map;
         setStatus('stCadastro', 'ok', `✓ ${found} clientes carregados em memória`);
         renderBaseStatus();
@@ -850,7 +855,7 @@ function parseSheetPosicoes(wb, sheetName, classifyFn, valueCol) {
 
 function parsePosicoesExcel(file) {
     readWorkbook(file, (wb, err) => {
-        if (err) { setStatus('stPosicoesModal', 'err', '❌ ' + err); document.getElementById('modalPosicoesSalvar').disabled = true; return; }
+        if (err) { setStatus('stPosicoesModal', 'err', '✗ ' + err); document.getElementById('modalPosicoesSalvar').disabled = true; return; }
 
         const specs = [
             { sheet: 'fundos_investimento', classify: row => MAP_FUNDOS_MARKETTYPE[row['MarketType']] || null },
@@ -874,12 +879,12 @@ function parsePosicoesExcel(file) {
         });
 
         if (!abasEncontradas.length) {
-            setStatus('stPosicoesModal', 'err', '❌ Nenhuma das abas esperadas (fundos_investimento, renda_fixa, previdencia, tesouro_direto, coe, acoes, fii) foi encontrada');
+            setStatus('stPosicoesModal', 'err', '✗ Nenhuma das abas esperadas (fundos_investimento, renda_fixa, previdencia, tesouro_direto, coe, acoes, fii) foi encontrada');
             document.getElementById('modalPosicoesSalvar').disabled = true;
             return;
         }
         if (!allRecords.length) {
-            setStatus('stPosicoesModal', 'err', '❌ Nenhum registro válido encontrado nas abas lidas');
+            setStatus('stPosicoesModal', 'err', '✗ Nenhum registro válido encontrado nas abas lidas');
             document.getElementById('modalPosicoesSalvar').disabled = true;
             return;
         }
@@ -892,13 +897,13 @@ function parsePosicoesExcel(file) {
         document.getElementById('modalPosicoesSalvar').disabled = false;
 
         document.getElementById('filePreviewPosicoes').innerHTML = `
-            <div class="file-preview-name">📄 ${esc(file.name)}</div>
+            <div class="file-preview-name"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:3px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>${esc(file.name)}</div>
             <div class="file-preview-row"><span>Abas lidas</span><span>${abasEncontradas.length} de ${specs.length}</span></div>
             <div class="file-preview-row"><span>Clientes</span><span>${nClientes}</span></div>
             <div class="file-preview-row"><span>Posições</span><span>${allRecords.length}</span></div>
             <div class="file-preview-row"><span>Valor total classificado</span><span>${fmtBRL(totalValor)}</span></div>
-            ${abasNaoEncontradas.length ? `<div class="file-preview-warn">⚠️ Aba(s) não encontrada(s) no arquivo: ${esc(abasNaoEncontradas.join(', '))}</div>` : ''}
-            ${totalNaoMapeados ? `<div class="file-preview-warn">⚠️ ${totalNaoMapeados} linha(s) com MarketType/Strategy não reconhecido, ignoradas</div>` : ''}
+            ${abasNaoEncontradas.length ? `<div class="file-preview-warn">Aba(s) não encontrada(s) no arquivo: ${esc(abasNaoEncontradas.join(', '))}</div>` : ''}
+            ${totalNaoMapeados ? `<div class="file-preview-warn">${totalNaoMapeados} linha(s) com MarketType/Strategy não reconhecido, ignoradas</div>` : ''}
         `;
     });
 }
@@ -1042,13 +1047,13 @@ function xpDadosDoNomeArquivo(filename) {
 
 async function loadXperformance(file) {
     if (window._pdfjsFailed || typeof pdfjsLib === 'undefined') {
-        setStatus('stXperformance', 'err', '❌ Biblioteca de leitura de PDF não carregou. Verifique a conexão e recarregue a página.');
+        setStatus('stXperformance', 'err', '✗ Biblioteca de leitura de PDF não carregou. Verifique a conexão e recarregue a página.');
         return;
     }
     setStatus('stXperformance', 'warn', '⏳ Lendo PDF…');
     const { code, nome } = xpDadosDoNomeArquivo(file.name);
     if (!code) {
-        setStatus('stXperformance', 'err', '❌ Não achei o código do cliente no nome do arquivo. Renomeie como "XPerformance - CODIGO - Nome.pdf".');
+        setStatus('stXperformance', 'err', '✗ Não achei o código do cliente no nome do arquivo. Renomeie como "XPerformance - CODIGO - Nome.pdf".');
         return;
     }
     try {
@@ -1062,7 +1067,7 @@ async function loadXperformance(file) {
         }
         const ativos = xpParsearAtivos(textoTotal);
         if (!ativos.length) {
-            setStatus('stXperformance', 'err', '❌ Não encontrei ativos na seção "Posição Detalhada dos Ativos" deste PDF.');
+            setStatus('stXperformance', 'err', '✗ Não encontrei ativos na seção "Posição Detalhada dos Ativos" deste PDF.');
             return;
         }
 
@@ -1076,7 +1081,7 @@ async function loadXperformance(file) {
 
         xperformanceData = ativos.map(a => ({ cliente: code, nome: a.nome, classe: a.classe, valor: a.valor }));
         const total = ativos.reduce((s, a) => s + a.valor, 0);
-        const perfilTxt = clientPerfil(code) ? '' : ' · ⚠ sem perfil no Cadastro';
+        const perfilTxt = clientPerfil(code) ? '' : ' · sem perfil no Cadastro';
         setStatus('stXperformance', 'ok', `✓ ${clientLabel(code)} · ${ativos.length} ativos · ${fmtBRL(total)}${perfilTxt}`);
 
         renderBaseStatus();
@@ -1084,14 +1089,14 @@ async function loadXperformance(file) {
         selectClient(code);
     } catch (e) {
         console.error(e);
-        setStatus('stXperformance', 'err', '❌ Erro ao ler o PDF: ' + (e.message || e));
+        setStatus('stXperformance', 'err', '✗ Erro ao ler o PDF: ' + (e.message || e));
     }
 }
 
 // ==== BASE DE RENTABILIDADE (idêntico ao projeto Rentabilidade) ====
 function parseRentabilidadeExcel(file) {
     readWorkbook(file, (wb, err) => {
-        if (err) { setStatus('stRentModal', 'err', '❌ ' + err); document.getElementById('modalRentSalvar').disabled = true; return; }
+        if (err) { setStatus('stRentModal', 'err', '✗ ' + err); document.getElementById('modalRentSalvar').disabled = true; return; }
 
         const byKey = {};
         let ignoradosFimDeSemana = 0;
@@ -1153,9 +1158,9 @@ function parseRentabilidadeExcel(file) {
             }
         });
 
-        if (!abasLidas) { setStatus('stRentModal', 'err', '❌ Nenhuma aba com as colunas obrigatórias (Cliente, Data, Rentabilidade) foi encontrada'); document.getElementById('modalRentSalvar').disabled = true; return; }
+        if (!abasLidas) { setStatus('stRentModal', 'err', '✗ Nenhuma aba com as colunas obrigatórias (Cliente, Data, Rentabilidade) foi encontrada'); document.getElementById('modalRentSalvar').disabled = true; return; }
         const records = Object.values(byKey).map(r => { delete r._d; return r; });
-        if (!records.length) { setStatus('stRentModal', 'err', '❌ Nenhum registro válido encontrado na planilha'); document.getElementById('modalRentSalvar').disabled = true; return; }
+        if (!records.length) { setStatus('stRentModal', 'err', '✗ Nenhum registro válido encontrado na planilha'); document.getElementById('modalRentSalvar').disabled = true; return; }
 
         pendingRentabilidade = records;
         const nClientes = new Set(records.map(r => r.cliente)).size;
@@ -1163,12 +1168,12 @@ function parseRentabilidadeExcel(file) {
         document.getElementById('dzRentModal').classList.add('ok');
         document.getElementById('modalRentSalvar').disabled = false;
         document.getElementById('filePreviewRent').innerHTML = `
-            <div class="file-preview-name">📄 ${esc(file.name)}</div>
+            <div class="file-preview-name"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:3px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>${esc(file.name)}</div>
             <div class="file-preview-row"><span>Abas lidas</span><span>${abasLidas} de ${wb.SheetNames.length}</span></div>
             <div class="file-preview-row"><span>Clientes</span><span>${nClientes}</span></div>
             <div class="file-preview-row"><span>Registros de mês</span><span>${records.length}</span></div>
-            ${abasIgnoradas.length ? `<div class="file-preview-warn">⚠️ Aba(s) sem colunas reconhecidas, ignorada(s): ${esc(abasIgnoradas.join(', '))}</div>` : ''}
-            ${ignoradosFimDeSemana ? `<div class="file-preview-warn">⚠️ ${ignoradosFimDeSemana} linha(s) de fim de semana ignoradas</div>` : ''}
+            ${abasIgnoradas.length ? `<div class="file-preview-warn">Aba(s) sem colunas reconhecidas, ignorada(s): ${esc(abasIgnoradas.join(', '))}</div>` : ''}
+            ${ignoradosFimDeSemana ? `<div class="file-preview-warn">${ignoradosFimDeSemana} linha(s) de fim de semana ignoradas</div>` : ''}
         `;
     });
 }
@@ -1451,7 +1456,7 @@ function selectClient(code, skipScroll) {
     const perfil = clientPerfil(code);
 
     if (!ad && !cdi) {
-        section.innerHTML = `<div class="result-panel"><div class="empty"><div class="empty-icon">📭</div><div class="empty-text">Ainda não há dados suficientes (posições e/ou rentabilidade) pra este cliente.</div></div></div>`;
+        section.innerHTML = `<div class="result-panel"><div class="empty"><div class="empty-icon"><svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"></path><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg></div><div class="empty-text">Ainda não há dados suficientes (posições e/ou rentabilidade) pra este cliente.</div></div></div>`;
         return;
     }
 
@@ -2214,7 +2219,7 @@ document.getElementById('btnLimparRentabilidade').addEventListener('click', () =
 // ==== TOPBAR ====
 document.getElementById('hubBackBtn').addEventListener('click', () => {
     if (window.self !== window.top) window.parent.postMessage({ action: 'hubNavigate', target: 'home' }, '*');
-    else window.location.href = "https://pabloads2020-lang.github.io/Dashboard-Ferramentas-Integradas/";
+    else window.location.href = "https://pabloads2020-lang.github.io/Dashboard-Ferramentas-Integradas/dashboard.html";
 });
 document.getElementById('hubNewTabBtn').addEventListener('click', () => window.open(window.location.href, '_blank'));
 (function clock() {
