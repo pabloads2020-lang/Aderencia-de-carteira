@@ -68,7 +68,7 @@
     s.onload=nextAuto; s.onerror=nextJspdf; document.head.appendChild(s);}
   nextJspdf();
 })();
-</script><script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</script><script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 ::selection{background:rgba(201,163,105,.28);color:#fff;}
@@ -408,7 +408,7 @@ strong{font-weight:700;}
 .st-bar{margin-bottom:0;}
 @media(max-width:520px){.modal-box{padding:var(--sp-5);}.modal-actions{flex-direction:column;}}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script></head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script></head>
 <body>
 
 <!-- TOPBAR PADRÃO HUB -->
@@ -427,7 +427,7 @@ strong{font-weight:700;}
         <button class="hub-newtab-btn" id="hubNewTabBtn">
             <span>Nova aba</span>
         </button>
-        <span class="hub-clock" id="hubClock">qua., 26 de ago. de 2026 · 08:46:59</span>
+        <span class="hub-clock" id="hubClock">ter., 13 de out. de 2026 · 14:05:55</span>
         <button class="hub-theme-btn" id="hubThemeBtn" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">
             <div class="hub-theme-knob"></div>
         </button>
@@ -444,7 +444,7 @@ strong{font-weight:700;}
             <div class="bs-icon"><span class="material-symbols-outlined">badge</span></div>
             <div class="bs-info">
                 <span class="base-status-label">Cadastro de Clientes</span>
-                <span class="st ok" id="stCadastro">153 clientes cadastrados</span>
+                <span class="st idle" id="stCadastro">Nenhum cadastro carregado</span>
             </div>
             <div class="bs-actions">
                 <button class="btn-clear-base" id="btnLimparCadastro"><span class="material-symbols-outlined">delete</span>Limpar</button>
@@ -456,7 +456,7 @@ strong{font-weight:700;}
             <div class="bs-icon"><span class="material-symbols-outlined">pie_chart</span></div>
             <div class="bs-info">
                 <span class="base-status-label">Posições dos Clientes</span>
-                <span class="st ok" id="stPosicoes">135 clientes · 2178 posições</span>
+                <span class="st idle" id="stPosicoes">Nenhum dado carregado</span>
             </div>
             <div class="bs-actions">
                 <button class="btn-clear-base" id="btnLimparPosicoes"><span class="material-symbols-outlined">delete</span>Limpar</button>
@@ -481,7 +481,7 @@ strong{font-weight:700;}
             <div class="bs-icon"><span class="material-symbols-outlined">query_stats</span></div>
             <div class="bs-info">
                 <span class="base-status-label">Base de Rentabilidade</span>
-                <span class="st ok" id="stRentabilidade">175 clientes · 10350 registros</span>
+                <span class="st idle" id="stRentabilidade">Nenhum dado carregado</span>
             </div>
             <div class="bs-actions">
                 <button class="btn-clear-base" id="btnLimparRentabilidade"><span class="material-symbols-outlined">delete</span>Limpar</button>
@@ -511,7 +511,7 @@ strong{font-weight:700;}
             <button class="btn-clear-base" id="btnLimparBusca"><span class="material-symbols-outlined">close</span>Limpar</button>
             <button class="btn-clear-base" id="btnExportarExcel"><span class="material-symbols-outlined">download</span>Exportar Excel</button>
             <button class="btn-clear-base" id="btnBaixarMetodologia"><span class="material-symbols-outlined">description</span>Metodologia</button>
-            <span class="clients-stats" id="clientsStats">3 de 178 clientes</span>
+            <span class="clients-stats" id="clientsStats"></span>
             <label class="ios-switch" id="advFiltersToggleWrap">
                 <input type="checkbox" id="advFiltersToggle">
                 <span class="ios-switch-track"></span>
@@ -519,7 +519,7 @@ strong{font-weight:700;}
             </label>
         </div>
     </div>
-    <div class="advanced-filters-card collapsed" id="advancedFiltersCard">
+    <div class="advanced-filters-card" id="advancedFiltersCard">
         <button class="btn-clear-base active" id="btnToggleSemPatrimonio"><span class="material-symbols-outlined">filter_alt_off</span>Mostrar todos (43 ocultados)</button>
         <span class="period-filter-label">Aderência × CDI</span>
         <div class="bm-segment" id="combinedFilterControls">
@@ -532,17 +532,17 @@ strong{font-weight:700;}
         <span class="period-filter-label" style="margin-left:4px;">Período do retorno mensal</span>
         <div class="ms-dropdown" id="cdiPeriodDropdown">
             <button type="button" class="cdi-period-btn" id="cdiPeriodBtn">
-                <span id="cdiPeriodBtnLabel">2026</span>
+                <span id="cdiPeriodBtnLabel">Todo o histórico</span>
                 <span class="material-symbols-outlined">expand_more</span>
             </button>
             <div class="ms-dropdown-panel hidden" id="cdiPeriodPanel">
                 <div class="ms-option ms-option-all" id="cdiPeriodAllBtn">Todo o histórico</div>
                 <div class="ms-divider"></div>
-                <div id="cdiPeriodYearOptions"><label class="ms-option"><input type="checkbox" data-year="2018"> 2018</label><label class="ms-option"><input type="checkbox" data-year="2019"> 2019</label><label class="ms-option"><input type="checkbox" data-year="2020"> 2020</label><label class="ms-option"><input type="checkbox" data-year="2021"> 2021</label><label class="ms-option"><input type="checkbox" data-year="2022"> 2022</label><label class="ms-option"><input type="checkbox" data-year="2023"> 2023</label><label class="ms-option"><input type="checkbox" data-year="2024"> 2024</label><label class="ms-option"><input type="checkbox" data-year="2025"> 2025</label><label class="ms-option"><input type="checkbox" data-year="2026" checked=""> 2026</label></div>
+                <div id="cdiPeriodYearOptions"></div>
             </div>
         </div>
     </div>
-    <div class="clients-table-wrap" style="display: block;">
+    <div class="clients-table-wrap" style="display: none;">
         <div class="clients-table-head">
             <span>Cliente</span>
             <span style="text-align:center">Perfil</span>
@@ -551,29 +551,8 @@ strong{font-weight:700;}
             <span style="text-align:center">Patrimônio</span>
             <span></span>
         </div>
-        <div class="clients-table-body" id="clientsGrid"><div class="client-row active" data-id="15663935" onclick="selectClient('15663935')">
-            <div class="cr-id"><span class="cr-index">01</span><div class="cr-id-text">HELENIDES JACIRA CAVALCANTI<span class="code">15663935</span></div></div>
-            <div class="cr-c"><span class="perfil-badge pb-conservador">Conservador</span></div>
-            <span class="cr-c pos">90.0%</span>
-            <span class="cr-c pos">100.7%</span>
-            <div class="cr-c" style="font-size:var(--fs-xs);">R$&nbsp;24.479,08</div>
-            <div class="cr-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
-        </div><div class="client-row" data-id="17288465" onclick="selectClient('17288465')">
-            <div class="cr-id"><span class="cr-index">02</span><div class="cr-id-text">KATIA CILENE CARNEIRO DE OLIVEIRA<span class="code">17288465</span></div></div>
-            <div class="cr-c"><span class="perfil-badge pb-conservador">Conservador</span></div>
-            <span class="cr-c pos">90.0%</span>
-            <span class="cr-c pos">100.4%</span>
-            <div class="cr-c" style="font-size:var(--fs-xs);">R$&nbsp;514.190,68</div>
-            <div class="cr-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
-        </div><div class="client-row" data-id="3762125" onclick="selectClient('3762125')">
-            <div class="cr-id"><span class="cr-index">03</span><div class="cr-id-text">MARIA MANUELA DE ARAUJO MEDEIROS<span class="code">3762125</span></div></div>
-            <div class="cr-c"><span class="perfil-badge pb-agressivo">Agressivo</span></div>
-            <span class="cr-c pos">82.6%</span>
-            <span class="cr-c pos">101.7%</span>
-            <div class="cr-c" style="font-size:var(--fs-xs);">R$&nbsp;573.016,77</div>
-            <div class="cr-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></div>
-        </div></div>
-        <div class="clients-table-footer" id="clientsFooter">3 clientes exibidos</div>
+        <div class="clients-table-body" id="clientsGrid"></div>
+        <div class="clients-table-footer" id="clientsFooter"></div>
     </div>
 
     <div id="resultSection" style="margin-top:1.75rem;">
@@ -694,7 +673,7 @@ strong{font-weight:700;}
     <div class="modal-box">
         <div class="modal-title"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="vertical-align:-3px;margin-right:4px;"><rect x="4" y="11" width="16" height="9" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Editar Carteiras Recomendadas</div>
         <div class="modal-sub">Insira a senha para editar os percentuais das carteiras recomendadas por perfil.</div>
-        <div class="modal-err" id="modalSenhaErr" style="display: none;">Senha incorreta. Tente novamente.</div>
+        <div class="modal-err" id="modalSenhaErr" style="display: block;">Senha incorreta. Tente novamente.</div>
         <div class="modal-input-wrap">
             <input type="text" class="modal-input" id="modalSenhaInput" placeholder="Senha" autocomplete="off" spellcheck="false">
             <button type="button" class="modal-eye" id="btnToggleSenha" tabindex="-1"><span class="material-symbols-outlined" style="font-size:18px;" id="eyeIcon">visibility</span></button>
@@ -787,7 +766,7 @@ strong{font-weight:700;}
         <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--bd);">
             <span class="dot-class" style="background:#5DADE2"></span>
             <span style="flex:1;font-size:var(--fs-sm);color:var(--tx2);">Prefixado</span>
-            <input type="number" min="0" max="100" step="0.5" value="15" data-cls="Prefixado" class="modal-input editor-pct" style="width:90px;margin:0;text-align:right;padding:8px 10px;">
+            <input type="number" min="0" max="100" step="0.5" value="10" data-cls="Prefixado" class="modal-input editor-pct" style="width:90px;margin:0;text-align:right;padding:8px 10px;">
             <span style="color:var(--tx3);width:14px;">%</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--bd);">
@@ -805,7 +784,7 @@ strong{font-weight:700;}
         <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--bd);">
             <span class="dot-class" style="background:#E67E22"></span>
             <span style="flex:1;font-size:var(--fs-sm);color:var(--tx2);">Multimercado</span>
-            <input type="number" min="0" max="100" step="0.5" value="8" data-cls="Multimercado" class="modal-input editor-pct" style="width:90px;margin:0;text-align:right;padding:8px 10px;">
+            <input type="number" min="0" max="100" step="0.5" value="3" data-cls="Multimercado" class="modal-input editor-pct" style="width:90px;margin:0;text-align:right;padding:8px 10px;">
             <span style="color:var(--tx3);width:14px;">%</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--bd);">
@@ -823,7 +802,7 @@ strong{font-weight:700;}
         <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--bd);">
             <span class="dot-class" style="background:#f2594c"></span>
             <span style="flex:1;font-size:var(--fs-sm);color:var(--tx2);">Renda Variável Global</span>
-            <input type="number" min="0" max="100" step="0.5" value="0" data-cls="Renda Variável Global" class="modal-input editor-pct" style="width:90px;margin:0;text-align:right;padding:8px 10px;">
+            <input type="number" min="0" max="100" step="0.5" value="10" data-cls="Renda Variável Global" class="modal-input editor-pct" style="width:90px;margin:0;text-align:right;padding:8px 10px;">
             <span style="color:var(--tx3);width:14px;">%</span>
         </div></div>
         <div id="editorSoma" style="text-align: right; font-family: &quot;DM Mono&quot;, monospace; font-size: var(--fs-sm); font-weight: 700; margin-top: var(--sp-3); color: var(--pos);">✓ Soma: 100%</div>
@@ -884,23 +863,7 @@ strong{font-weight:700;}
 // ==== CARTEIRAS RECOMENDADAS (embutido, vindo do projeto "Carteiras Recomendadas") ====
 // % alvo por classe de ativo, por perfil. Se quiser editar esses números depois,
 // é só pedir — por ora estão fixos aqui, iguais aos do arquivo de Carteiras Recomendadas.
-const CARTEIRAS = {"Conservador":{"classes":{"Prefixado":10,"Pós-fixado":90,"Inflação":0,"Multimercado":0,"Renda Variável":0,"Renda Fixa Global":0,"Renda Variável Global":0}},"Moderado":{"classes":{"Prefixado":10,"Pós-fixado":54,"Inflação":20,"Multimercado":3,"Renda Variável":6,"Renda Fixa Global":0,"Renda Variável Global":7}},"Agressivo":{"classes":{"Prefixado":10,"Pós-fixado":43,"Inflação":24,"Multimercado":3,"Renda Variável":10,"Renda Fixa Global":0,"Renda Variável Global":10}}};
-const CLASSES_ORDER = ['Prefixado', 'Pós-fixado', 'Inflação', 'Multimercado', 'Renda Variável', 'Renda Fixa Global', 'Renda Variável Global'];
-const CLASS_COLORS = { 'Prefixado': '#5DADE2', 'Pós-fixado': '#38cf92', 'Inflação': '#BB8FCE', 'Multimercado': '#E67E22', 'Renda Variável': '#cba869', 'Renda Fixa Global': '#1ABC9C', 'Renda Variável Global': '#f2594c' };
-
-// ==== MAPEAMENTO DE LEITURA — PLANILHA DE POSIÇÕES ====
-// Confirmado linha a linha com o Excel real (relatorio_posicoes). Cada aba usa uma
-// coluna diferente pra decidir a classe (MarketType ou Strategy), exceto "fii" que é
-// sempre classificado como Renda Variável, independente do conteúdo das colunas.
-const MAP_FUNDOS_MARKETTYPE = {
-    'Fundo de Investimento Referenciado': 'Pós-fixado',
-    'Fundo de Investimento Renda Fixa': 'Pós-fixado',
-    'Fundo de Investimento em Direitos Creditórios': 'Pós-fixado',
-    'Fundo de Investimento Multimercado': 'Multimercado',
-    'Fundo de Investimento Renda Variável': 'Renda Variável',
-    'Fundo de Investimento Internacional': 'Renda Variável Global',
-    'Alternativo': 'Renda Variável Global'
-};
+const CARTEIRAS = {"Conservador":{"classes":{"Prefixado":5,"Pós-fixado":95,"Inflação":0,"Multimercado":0,"Renda Variável":0,"Renda Fixa Global":0,"Renda Variável Global":0}},"Moderado":{"classes":{"Prefixado":5,"Pós-fixado":60,"Inflação":16,"Multimercado":3,"Renda Variável":5,"Renda Fixa Global":0,"Renda Variável Global":11}},"Agressivo":{"classes":{"Prefixado":8,"Pós-fixado":45,"Inflação":20,"Multimercado":3,"Renda Variável":7,"Renda Fixa Global":0,"Renda Variável Global":17}}};
 const MAP_RENDA_FIXA_STRATEGY = { 'FixedRate': 'Prefixado', 'FloatingRate': 'Pós-fixado', 'Inflation': 'Inflação' };
 const MAP_PREVIDENCIA_STRATEGY = { 'HedgeFund': 'Multimercado', 'FloatingRate': 'Pós-fixado', 'Inflation': 'Inflação', 'Equity': 'Renda Variável', 'FixedRate': 'Multimercado' };
 const MAP_TESOURO_STRATEGY = { 'FixedRate': 'Prefixado', 'FloatingRate': 'Pós-fixado', 'Inflation': 'Inflação' };
